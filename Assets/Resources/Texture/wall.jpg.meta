@@ -1,0 +1,200 @@
+fileFormatVersion: 2
+guid: 1eb5cb460ebfaaa4eb4ef84296d09720
+timeCreated: 1452844240
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: "\u5899_0"
+    21300002: "\u5899_1"
+    21300004: "\u5899_2"
+    21300006: "\u5899_3"
+    21300008: "\u5899_4"
+    21300010: "\u5899_5"
+    21300012: "\u5899_6"
+    21300014: "\u5899_7"
+    21300016: "\u5899_8"
+    21300018: "\u5899_9"
+    21300020: "\u5899_10"
+    21300022: "\u5899_11"
+    21300024: wall_0
+    21300026: wall_1
+    21300028: wall_2
+    21300030: wall_3
+    21300032: wall_4
+    21300034: wall_5
+    21300036: wall_6
+    21300038: wall_7
+    21300040: wall_8
+    21300042: wall_9
+    21300044: wall_10
+    21300046: wall_11
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 120
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: wall_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 255
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_1
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 255
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_2
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 255
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_3
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 255
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 135
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_5
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 135
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_6
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 135
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_7
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 135
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 15
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_9
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 15
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_10
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 15
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: wall_11
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 15
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
