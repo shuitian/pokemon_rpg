@@ -4,20 +4,39 @@ using UnityTool.Libgame;
 
 public class Level : MonoBehaviour {
 
-    public enum CellType {
-        ROAD = 0,
-        WALL = 1,
-    }
+    static Level level;
     public static int width = 10;
     public static int height = 10;
     public int[,] terrainData = new int[width, height];
     public GameObject terrain;
-    public GameObject[] sprites = new GameObject[width * height];
+    public static GameObject[] sprites = new GameObject[width * height];
     public static Sprite[] walls = Resources.LoadAll<Sprite>("Texture/wall");
     public static Sprite[] roads = Resources.LoadAll<Sprite>("Texture/road");
-    public static Sprite[] pics = Resources.LoadAll<Sprite>("Texture/Pics");
+    public static Sprite[] pics = Resources.LoadAll<Sprite>("Texture/pics");
     public static GameObject cell = Resources.Load("Prefabs/Cell") as GameObject;
     public static int maxData = pics.Length;
+    static bool isLoaded = false;
+    static public Level Instance()
+    {
+        return level;
+    }
+    void Awake()
+    {
+        level = this;
+        SetTerrainData();
+        //LoadResource();
+    }
+
+    void SetTerrainData()
+    {
+        for (int i = 0; i < terrain.transform.childCount; i++) 
+        {
+            if (terrain.transform.GetChild(i).gameObject.activeInHierarchy)
+            {
+                terrainData[i / height, i % height] = terrain.transform.GetChild(i).GetComponent<Cell>().number;
+            }
+        }
+    }
     // Use this for initialization
     void Start () {
 	
@@ -95,7 +114,7 @@ public class Level : MonoBehaviour {
 
     public void CreateRandomMaze()
     {
-        terrainData = new int[width, height];
+        //LoadResource();
         ClearTerrain();
         CreateRandomMazeTerrainData(0, 0, width-1, height-1, 0, width, 0, height);
         CreateTerrainBasedOnData();
@@ -103,9 +122,23 @@ public class Level : MonoBehaviour {
 
     public void CreateRandomTerrain()
     {
+        //LoadResource();
         ClearTerrain();
         CreateRandomTerrainData();
         CreateTerrainBasedOnData();
+    }
+
+    public static void LoadResource()
+    {
+        if (!isLoaded)
+        {
+            walls = Resources.LoadAll<Sprite>("Texture/wall");
+            roads = Resources.LoadAll<Sprite>("Texture/road");
+            pics = Resources.LoadAll<Sprite>("Texture/Pics");
+            cell = Resources.Load("Prefabs/Cell") as GameObject;
+            maxData = pics.Length;
+            isLoaded = true;
+        }
     }
 
     public void ClearTerrain()
@@ -120,6 +153,7 @@ public class Level : MonoBehaviour {
                 }
             }
         }
+        terrainData = new int[width, height];
     }
 
     public void DestoryTerrain()

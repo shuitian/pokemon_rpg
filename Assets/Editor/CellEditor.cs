@@ -15,17 +15,17 @@ public class CellEditor : Editor
         {
             return;
         }
-        if (cell.number == (int)Level.CellType.ROAD)
+        if (cell.number == (int)CellType.ROAD)
         {
             cell.GetComponent<SpriteRenderer>().sprite = Level.roads[Random.Range(0, Level.roads.Length)];
         }
-        else if (cell.number == (int)Level.CellType.WALL)
+        else if (cell.number == (int)CellType.WALL)
         {
             cell.GetComponent<SpriteRenderer>().sprite = Level.walls[Random.Range(0, Level.walls.Length)];
         }
-        else if (cell.number >= 2 && cell.number <= Level.maxData+1)
+        else if (cell.number >= 1 && cell.number <= Level.maxData)
         {
-            cell.GetComponent<SpriteRenderer>().sprite = Level.pics[cell.number-2];
+            cell.GetComponent<SpriteRenderer>().sprite = Level.pics[cell.number - 1];
         }
     }
 }
