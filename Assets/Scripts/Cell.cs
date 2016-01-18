@@ -9,4 +9,6 @@ public enum CellType
 {
     ROAD = 0,
     WALL = -1,
+    UPSTAIRS = -2,
+    DOWNSTAIRS = -3,
 }

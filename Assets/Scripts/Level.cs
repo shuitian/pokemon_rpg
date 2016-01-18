@@ -4,36 +4,36 @@ using UnityTool.Libgame;
 
 public class Level : MonoBehaviour {
 
-    static Level level;
+    public GameObject self;
     public static int width = 10;
     public static int height = 10;
     public int[,] terrainData = new int[width, height];
-    public GameObject terrain;
-    public static GameObject[] sprites = new GameObject[width * height];
+    public GameObject[] sprites = new GameObject[width * height];
     public static Sprite[] walls = Resources.LoadAll<Sprite>("Texture/wall");
     public static Sprite[] roads = Resources.LoadAll<Sprite>("Texture/road");
     public static Sprite[] pics = Resources.LoadAll<Sprite>("Texture/pics");
     public static GameObject cell = Resources.Load("Prefabs/Cell") as GameObject;
+    public static GameObject up_floor = Resources.Load("Prefabs/up_floor") as GameObject;
+    public static GameObject down_floor = Resources.Load("Prefabs/down_floor") as GameObject;
     public static int maxData = pics.Length;
     static bool isLoaded = false;
     static public Level Instance()
     {
-        return level;
+        return Game.levels[Game.currentLevel]; 
     }
     void Awake()
     {
-        level = this;
         SetTerrainData();
         //LoadResource();
     }
 
     void SetTerrainData()
     {
-        for (int i = 0; i < terrain.transform.childCount; i++) 
+        for (int i = 0; i < self.transform.childCount; i++) 
         {
-            if (terrain.transform.GetChild(i).gameObject.activeInHierarchy)
+            if (self.transform.GetChild(i).gameObject.activeInHierarchy)
             {
-                terrainData[i / height, i % height] = terrain.transform.GetChild(i).GetComponent<Cell>().number;
+                terrainData[i / height, i % height] = self.transform.GetChild(i).GetComponent<Cell>().number;
             }
         }
     }
@@ -96,18 +96,24 @@ public class Level : MonoBehaviour {
         {
             for (int j = 0; j < height; j++)
             {
-                if(terrainData[i,j] == (int)CellType.WALL)
+                sprites[i * width + j] = ObjectPool.Instantiate(cell, new Vector2(i, j), Quaternion.identity, self.transform);
+                if (terrainData[i,j] == (int)CellType.WALL)
                 {
-                    sprites[i * width + j] = ObjectPool.Instantiate(cell, new Vector2(i,j), Quaternion.identity, terrain.transform);
-                    sprites[i * width + j].GetComponent<SpriteRenderer>().sprite = walls[Random.Range(0, walls.Length)];
-                    sprites[i * width + j].GetComponent<Cell>().number = terrainData[i, j];
+                    sprites[i * width + j].GetComponent<SpriteRenderer>().sprite = walls[Random.Range(0, walls.Length)];    
                 }
-                else if (terrainData[i, j] == (int)CellType.ROAD)
+                else// if (terrainData[i, j] == (int)CellType.ROAD)
                 {
-                    sprites[i * width + j] = ObjectPool.Instantiate(cell, new Vector2(i, j), Quaternion.identity, terrain.transform);
                     sprites[i * width + j].GetComponent<SpriteRenderer>().sprite = roads[Random.Range(0, roads.Length)];
-                    sprites[i * width + j].GetComponent<Cell>().number = terrainData[i, j];
                 }
+                if (terrainData[i, j] == (int)CellType.UPSTAIRS)
+                {
+                    ObjectPool.Instantiate(up_floor, new Vector3(i, j, -0.5F), Quaternion.identity, sprites[i * width + j].transform);
+                }
+                else if (terrainData[i, j] == (int)CellType.DOWNSTAIRS)
+                {
+                    ObjectPool.Instantiate(down_floor, new Vector3(i, j, -0.5F), Quaternion.identity, sprites[i * width + j].transform);
+                }
+                sprites[i * width + j].GetComponent<Cell>().number = terrainData[i, j];
             }
         }
     }
@@ -117,6 +123,8 @@ public class Level : MonoBehaviour {
         //LoadResource();
         ClearTerrain();
         CreateRandomMazeTerrainData(0, 0, width-1, height-1, 0, width, 0, height);
+        terrainData[0, 0] = (int)CellType.DOWNSTAIRS;
+        terrainData[width - 1, height - 1] = (int)CellType.UPSTAIRS;
         CreateTerrainBasedOnData();
     }
 
@@ -159,9 +167,9 @@ public class Level : MonoBehaviour {
     public void DestoryTerrain()
     {
         sprites = new GameObject[width * height];
-        for (int i = 0; i < terrain.transform.childCount; )
+        for (int i = 0; i < self.transform.childCount; )
         {
-            Object.DestroyImmediate(terrain.transform.GetChild(i).gameObject);
+            Object.DestroyImmediate(self.transform.GetChild(i).gameObject);
         }
     }
 }
