@@ -47,14 +47,14 @@ public class PlayerMove : MonoBehaviour {
                 transform.position = new Vector3((int)transform.position.x + pos_x[direct], (int)transform.position.y + pos_y[direct], -1);
                 if (Level.Instance().terrainData[(int)transform.position.x, (int)transform.position.y] == (int)CellType.UPSTAIRS)
                 {
-                    if(Game.SetLevel(Game.currentLevel + 1))
+                    if(Game.Instance().SetLevel(Game.currentLevel + 1))
                     {
                         transform.position = new Vector3(0, 0, -1);
                     }
                 }
                 else if (Level.Instance().terrainData[(int)transform.position.x, (int)transform.position.y] == (int)CellType.DOWNSTAIRS)
                 {
-                    if(Game.SetLevel(Game.currentLevel - 1))
+                    if(Game.Instance().SetLevel(Game.currentLevel - 1))
                     {
                         transform.position = new Vector3(Level.width - 1, Level.height - 1, -1);
                     }

@@ -166,8 +166,9 @@ public class Player : MonoBehaviour {
     #endregion
 
     public string playerName = "水天";
-    public float attack = 1;
-    public float defence = 0.01F;
+    public float attack;
+    [Range(0, 100)]
+    public float defence;
     /// <summary>
     /// 角色死亡
     /// </summary>

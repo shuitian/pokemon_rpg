@@ -27,7 +27,7 @@ public class PlayerShow : MonoBehaviour {
             }
             if (defenceText)
             {
-                defenceText.text = player.defence * 100 + "%";
+                defenceText.text = player.defence + "%";
             }
         }
     }
