@@ -3,63 +3,176 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-    static public int[] pos_x = { 1, 0, 0, -1 };
-    static public int[] pos_y = { 0, 1, -1, 0 };
-    public float moveSpcae = 0.5F;
-    float lastTime = 0;
-    // Use this for initialization
-    void Start () {
-
+    void Awake()
+    {
+        player = this;
+    }
+    static Player player;
+    public static Player Instance()
+    {
+        return player;
     }
 
-    // Update is called once per frame
-    void Update () {
-        if(Time.time - lastTime < moveSpcae)
+    void OnEnable()
+    {
+        ResetHp();
+    }
+
+    #region 生命值组件
+    /// <summary>
+    /// 生命值
+    /// </summary>
+    public float hp;
+
+    /// <summary>
+    /// 最大生命值
+    /// </summary>
+    public float maxHp;
+
+    /// <summary>
+    /// 获得生命值
+    /// </summary>
+    /// <param name="p_hpObtained">生命值获得量</param>
+    /// <returns>实际增加的生命值</returns>
+    public float AddHp(float p_hpObtained)
+    {
+        if (p_hpObtained < 0 || hp > maxHp)
         {
-            return;
+            p_hpObtained = 0;
         }
-        lastTime = Time.time;
-        int direct = -1;    
-	    if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        float hpTemp = hp;
+        hp += p_hpObtained;
+        if (hp > maxHp)
         {
-            direct = 0;
+            hp = maxHp;
         }
-        else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        return hp - hpTemp;
+    }
+
+    /// <summary>
+    /// 无条件扣除相应生命值
+    /// </summary>
+    /// <param name="p_hpLost">生命值扣除量</param>
+    public void LoseHp(float p_hpLost)
+    {
+        if (p_hpLost < 0)
         {
-            direct = 1;
+            p_hpLost = 0;
         }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        hp -= p_hpLost;
+        die();
+    }
+
+    /// <summary>
+    /// 得到当前生命值
+    /// </summary>
+    /// <returns>当前生命值</returns>
+    public float GetCurrentHp()
+    {
+        return hp;
+    }
+
+    /// <summary>
+    /// 重设生命值为最大生命值
+    /// </summary>
+    /// <returns>如果最大生命值大于0，设置成功，返回真，否则返回假</returns>
+    public bool ResetHp()
+    {
+        if (maxHp <= 0)
         {
-            direct = 2;
+            return false;
         }
-        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        hp = maxHp;
+        return true;
+    }
+
+    /// <summary>
+    /// 生命值清0
+    /// </summary>
+    public void ClearHp()
+    {
+        this.hp = 0;
+    }
+
+    /// <summary>
+    /// 改变最大生命值
+    /// </summary>
+    /// <param name="p_maxHp">新的最大生命值</param>
+    public void ChangeMaxHp(float p_maxHp)
+    {
+        this.maxHp = p_maxHp;
+    }
+    #endregion
+
+    #region 资源组件
+    /// <summary>
+    /// 当前金币
+    /// </summary>
+    public float money = 0;
+
+    /// <summary>
+    /// 获取当前金钱
+    /// </summary>
+    /// <returns>当前金钱</returns>
+    public float GetCurrentMoney()
+    {
+        return money;
+    }
+
+    /// <summary>
+    /// 增加金钱
+    /// </summary>
+    /// <param name="p_money">金钱增加量</param>
+    public void AddMoney(float p_money)
+    {
+        if (p_money < 0)
         {
-            direct = 3;
+            p_money = 0;
         }
-        if (direct != -1)
+        this.money += p_money;
+    }
+
+    /// <summary>
+    /// 无条件扣除相应金钱
+    /// </summary>
+    /// <param name="p_money">金钱扣除量</param>
+    public void LoseMoney(float p_money)
+    {
+        if (p_money < 0)
         {
-            if ((int)transform.position.x + pos_x[direct] >= Level.width || (int)transform.position.x + pos_x[direct] < 0 || (int)transform.position.y + pos_y[direct] >= Level.height || (int)transform.position.y + pos_y[direct] < 0)
-            {
-                return;
-            }
-            if (Level.Instance().terrainData[(int)transform.position.x + pos_x[direct], (int)transform.position.y + pos_y[direct]] != (int)CellType.WALL)
-            {
-                transform.position = new Vector3((int)transform.position.x + pos_x[direct], (int)transform.position.y + pos_y[direct], -1);
-                if (Level.Instance().terrainData[(int)transform.position.x, (int)transform.position.y] == (int)CellType.UPSTAIRS)
-                {
-                    if(Game.SetLevel(Game.currentLevel + 1))
-                    {
-                        transform.position = new Vector3(0, 0, -1);
-                    }
-                }
-                else if (Level.Instance().terrainData[(int)transform.position.x, (int)transform.position.y] == (int)CellType.DOWNSTAIRS)
-                {
-                    if(Game.SetLevel(Game.currentLevel - 1))
-                    {
-                        transform.position = new Vector3(Level.width - 1, Level.height - 1, -1);
-                    }
-                }
-            }
+            p_money = 0;
         }
+        this.money -= p_money;
+    }
+
+    /// <summary>
+    /// 试着扣除相应金钱
+    /// </summary>
+    /// <param name="p_money">金钱扣除量</param>
+    /// <returns>成功返回真，否则返回假</returns>
+    public virtual bool TryToLoseMoney(float p_money)
+    {
+        if (p_money < 0)
+        {
+            p_money = 0;
+        }
+        if (this.money >= p_money)
+        {
+            this.money -= p_money;
+            return true;
+        }
+        return false;
+    }
+    #endregion
+
+    public string playerName = "水天";
+    public float attack = 1;
+    public float defence = 0.01F;
+    /// <summary>
+    /// 角色死亡
+    /// </summary>
+    void die()
+    {
+        Game.Lose();
     }
 }

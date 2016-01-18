@@ -8,11 +8,12 @@ public class Game : MonoBehaviour {
     public static int currentLevel;
     // Use this for initialization
     void Start () {
-        if (transform.childCount == maxLevel)
+        GameObject terrain = GameObject.FindGameObjectWithTag("Terrain");
+        if (terrain.transform.childCount == maxLevel)
         {
-            for (int i = 0; i < transform.childCount; i++) 
+            for (int i = 0; i < terrain.transform.childCount; i++) 
             {
-                levels[i] = transform.GetChild(i).GetComponent<Level>();
+                levels[i] = terrain.transform.GetChild(i).GetComponent<Level>();
             }
         }
         if (maxLevel > 0)
@@ -34,6 +35,20 @@ public class Game : MonoBehaviour {
             currentLevel = level;
             return true;
         }
+        if (level >= maxLevel)
+        {
+            Win();
+        }
         return false;
+    }
+
+    static public void Lose()
+    {
+        print("You Fail!");
+    }
+
+    static public void Win()
+    {
+        print("You Win!");
     }
 }

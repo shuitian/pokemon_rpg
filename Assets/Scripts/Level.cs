@@ -13,8 +13,8 @@ public class Level : MonoBehaviour {
     public static Sprite[] roads = Resources.LoadAll<Sprite>("Texture/road");
     public static Sprite[] pics = Resources.LoadAll<Sprite>("Texture/pics");
     public static GameObject cell = Resources.Load("Prefabs/Cell") as GameObject;
-    public static GameObject up_floor = Resources.Load("Prefabs/up_floor") as GameObject;
-    public static GameObject down_floor = Resources.Load("Prefabs/down_floor") as GameObject;
+    public static Sprite up_floor = Resources.Load<Sprite>("Texture/up_floor");
+    public static Sprite down_floor = Resources.Load<Sprite>("Texture/down_floor");
     public static int maxData = pics.Length;
     static bool isLoaded = false;
     static public Level Instance()
@@ -107,11 +107,11 @@ public class Level : MonoBehaviour {
                 }
                 if (terrainData[i, j] == (int)CellType.UPSTAIRS)
                 {
-                    ObjectPool.Instantiate(up_floor, new Vector3(i, j, -0.5F), Quaternion.identity, sprites[i * width + j].transform);
+                    sprites[i * width + j].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = up_floor;
                 }
                 else if (terrainData[i, j] == (int)CellType.DOWNSTAIRS)
                 {
-                    ObjectPool.Instantiate(down_floor, new Vector3(i, j, -0.5F), Quaternion.identity, sprites[i * width + j].transform);
+                    sprites[i * width + j].transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = down_floor;
                 }
                 sprites[i * width + j].GetComponent<Cell>().number = terrainData[i, j];
             }
