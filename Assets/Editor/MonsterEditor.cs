@@ -11,7 +11,7 @@ public class MonsterEditor : Editor
         Monster monster = (Monster)target;
         int t = monster.id;
         monster.id = EditorGUILayout.IntField("id", monster.id);
-        if (monster.id >= 1 && monster.id <= Level.maxData)
+        if (monster.id >= 1 && monster.id <= LoadResources.maxMonster)
         {
             MonsterData m = Sql.GetMonsterData(monster.id);
             monster.hp = m.hp;
@@ -36,21 +36,41 @@ public class MonsterEditor : Editor
         {
             monster.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 1);
         }
-        if (monster.id == (int)CellType.WALL)
+        if (monster.id >= 1 && monster.id <= LoadResources.maxMonster)
         {
-            monster.GetComponent<SpriteRenderer>().sprite = Level.walls[Random.Range(0, Level.walls.Length)];
+            monster.GetComponent<SpriteRenderer>().sprite = LoadResources.monsters[monster.id - 1];
         }
-        else if (monster.id == (int)CellType.UPSTAIRS)
+        else if (monster.id == (int)CellType.WALL)
         {
-            monster.GetComponent<SpriteRenderer>().sprite = Level.up_floor;
+            monster.GetComponent<SpriteRenderer>().sprite = LoadResources.wall;
         }
-        else if (monster.id == (int)CellType.DOWNSTAIRS)
+        else if (monster.id == (int)CellType.up_floor)
         {
-            monster.GetComponent<SpriteRenderer>().sprite = Level.down_floor;
+            monster.GetComponent<SpriteRenderer>().sprite = LoadResources.up_floor;
         }
-        else if (monster.id >= 1 && monster.id <= Level.maxData)
+        else if (monster.id == (int)CellType.down_floor)
         {
-            monster.GetComponent<SpriteRenderer>().sprite = Level.pics[monster.id - 1];
+            monster.GetComponent<SpriteRenderer>().sprite = LoadResources.down_floor;
+        }
+        else if (monster.id == (int)CellType.add_attack_10)
+        {
+            monster.GetComponent<SpriteRenderer>().sprite = LoadResources.add_attack_10;
+        }
+        else if (monster.id == (int)CellType.add_defence_1)
+        {
+            monster.GetComponent<SpriteRenderer>().sprite = LoadResources.add_defence_1;
+        }
+        else if (monster.id == (int)CellType.add_hp_100)
+        {
+            monster.GetComponent<SpriteRenderer>().sprite = LoadResources.add_hp_100;
+        }
+        else if (monster.id == (int)CellType.add_hp_1000)
+        {
+            monster.GetComponent<SpriteRenderer>().sprite = LoadResources.add_hp_1000;
+        }
+        else if (monster.id == (int)CellType.add_hp_10000)
+        {
+            monster.GetComponent<SpriteRenderer>().sprite = LoadResources.add_hp_10000;
         }
     }
 }

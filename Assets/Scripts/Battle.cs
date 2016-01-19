@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Battle {
-
+public class Battle :MonoBehaviour{
+    
     public static void battle(Player player, Monster monster)
     {
         while (player.hp > 0 && monster.hp > 0)

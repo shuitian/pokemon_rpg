@@ -2,10 +2,11 @@
 using UnityEngine.UI;
 using System.Collections;
 
+[RequireComponent(typeof(LoadResources))]
 public class Game : MonoBehaviour {
 
     static Game game;
-    public static int maxLevel = 11;
+    public static int maxLevel = 10;
     public static Level[] levels = new Level[maxLevel];
     public static int currentLevel;
     public GameObject animaterObject;

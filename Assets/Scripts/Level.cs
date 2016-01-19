@@ -9,14 +9,7 @@ public class Level : MonoBehaviour {
     public static int height = 10;
     int[,] data = new int[width, height];
     public Cell[,] cells = new Cell[width, height];
-    public static Sprite[] walls = Resources.LoadAll<Sprite>("Texture/wall");
-    public static Sprite[] roads = Resources.LoadAll<Sprite>("Texture/road");
-    public static Sprite[] pics = Resources.LoadAll<Sprite>("Texture/pics");
-    public static GameObject cell = Resources.Load("Prefabs/Cell") as GameObject;
-    public static Sprite up_floor = Resources.Load<Sprite>("Texture/up_floor");
-    public static Sprite down_floor = Resources.Load<Sprite>("Texture/down_floor");
-    public static int maxData = pics.Length;
-    static bool isLoaded = false;
+
     static public Level Instance()
     {
         return Game.levels[Game.currentLevel];
@@ -85,22 +78,22 @@ public class Level : MonoBehaviour {
         {
             for (int j = 0; j < height; j++)
             {
-                cells[i, j] = ObjectPool.Instantiate(cell, new Vector2(i, j), Quaternion.identity, self.transform).GetComponent<Cell>();
+                cells[i, j] = ObjectPool.Instantiate(LoadResources.cell, new Vector2(i, j), Quaternion.identity, self.transform).GetComponent<Cell>();
                 if (data[i, j] == (int)CellType.ROAD)
                 {
-                    cells[i, j].gameObject.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
+                    cells[i, j].GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
                 }
                 else if (data[i, j] == (int)CellType.WALL)
                 {
-                    cells[i, j].gameObject.GetComponent<SpriteRenderer>().sprite = walls[Random.Range(0, walls.Length)];
+                    cells[i, j].GetComponent<SpriteRenderer>().sprite = LoadResources.wall;
                 }
-                else if (data[i, j] == (int)CellType.UPSTAIRS)
+                else if (data[i, j] == (int)CellType.up_floor)
                 {
-                    cells[i, j].gameObject.GetComponent<SpriteRenderer>().sprite = up_floor;
+                    cells[i, j].GetComponent<SpriteRenderer>().sprite = LoadResources.up_floor;
                 }
-                else if (data[i, j] == (int)CellType.DOWNSTAIRS)
+                else if (data[i, j] == (int)CellType.down_floor)
                 {
-                    cells[i, j].gameObject.GetComponent<SpriteRenderer>().sprite = down_floor;
+                    cells[i, j].GetComponent<SpriteRenderer>().sprite = LoadResources.down_floor;
                 }
                 cells[i, j].monster.id = data[i, j];
             }
@@ -109,25 +102,11 @@ public class Level : MonoBehaviour {
 
     public void CreateRandomMaze()
     {
-        //LoadResource();
         ClearTerrain();
         CreateRandomMazeTerrainData(0, 0, width - 1, height - 1, 0, width, 0, height);
-        data[0, 0] = (int)CellType.DOWNSTAIRS;
-        data[width - 1, height - 1] = (int)CellType.UPSTAIRS;
+        data[0, 0] = (int)CellType.down_floor;
+        data[width - 1, height - 1] = (int)CellType.up_floor;
         CreateTerrainBasedOnData();
-    }
-
-    public static void LoadResource()
-    {
-        if (!isLoaded)
-        {
-            walls = Resources.LoadAll<Sprite>("Texture/wall");
-            roads = Resources.LoadAll<Sprite>("Texture/road");
-            pics = Resources.LoadAll<Sprite>("Texture/Pics");
-            cell = Resources.Load("Prefabs/Cell") as GameObject;
-            maxData = pics.Length;
-            isLoaded = true;
-        }
     }
 
     public void ClearTerrain()

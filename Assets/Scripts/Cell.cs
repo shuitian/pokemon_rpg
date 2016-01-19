@@ -7,8 +7,13 @@ public class Cell : MonoBehaviour {
 }
 public enum CellType
 {
-    ROAD = 0,
+    add_attack_10 = -8,
+    add_defence_1,
+    add_hp_100,
+    add_hp_1000,
+    add_hp_10000,
+    down_floor,
+    up_floor,
     WALL = -1,
-    UPSTAIRS = -2,
-    DOWNSTAIRS = -3,
+    ROAD = 0,
 }

@@ -20,14 +20,22 @@ public class LevelEditor : Editor
         if (GUILayout.Button("草绿"))
         {
             level.SetColor(new Color(125 / 255.0F, 252 / 255.0F, 0 / 255.0F));
+            level.GetComponent<SpriteRenderer>().sprite = LoadResources.road;
         }
         if (GUILayout.Button("水蓝"))
         {
-            level.SetColor(new Color(105 / 255.0F, 129 / 255.0F, 242 / 255.0F));
+            level.SetColor(Color.white);
+            level.GetComponent<SpriteRenderer>().sprite = LoadResources.blue;
         }
-        if (GUILayout.Button("暗红"))
+        if (GUILayout.Button("灰色"))
         {
-            level.SetColor(new Color(255 / 255.0F, 94 / 255.0F, 94 / 255.0F));
+            level.SetColor(Color.white);
+            level.GetComponent<SpriteRenderer>().sprite = LoadResources.road;
+        }
+        if (GUILayout.Button("大红"))
+        {
+            level.SetColor(Color.red);
+            level.GetComponent<SpriteRenderer>().sprite = LoadResources.road;
         }
     }
 }

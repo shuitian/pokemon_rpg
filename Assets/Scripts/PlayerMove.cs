@@ -47,23 +47,53 @@ public class PlayerMove : MonoBehaviour {
             if (Level.Instance().cells[x, y].monster.id != (int)CellType.WALL)
             {
                 transform.position = new Vector3(x, y, -1);
-                if (Level.Instance().cells[x, y].monster.id == (int)CellType.UPSTAIRS) 
+                if (Level.Instance().cells[x, y].monster.id == (int)CellType.up_floor) 
                 {
                     if(Game.Instance().SetLevel(Game.currentLevel + 1))
                     {
                         transform.position = new Vector3(0, 0, -1);
                     }
                 }
-                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.DOWNSTAIRS)
+                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.down_floor)
                 {
                     if(Game.Instance().SetLevel(Game.currentLevel - 1))
                     {
                         transform.position = new Vector3(Level.width - 1, Level.height - 1, -1);
                     }
                 }
-                else if(Level.Instance().cells[x, y].monster.id >= 1 && Level.Instance().cells[x, y].monster.id <= Level.maxData)
+                else if(Level.Instance().cells[x, y].monster.id >= 1 && Level.Instance().cells[x, y].monster.id <= LoadResources.maxMonster)
                 {
                     Battle.battle(Player.Instance(), Level.Instance().cells[x, y].monster);
+                }
+                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_attack_10)
+                {
+                    Player.Instance().attack += 10;
+                    Level.Instance().cells[x, y].monster.id = 0;
+                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
+                }
+                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_defence_1)
+                {
+                    Player.Instance().defence += 1;
+                    Level.Instance().cells[x, y].monster.id = 0;
+                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
+                }
+                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_hp_100)
+                {
+                    Player.Instance().AddHp(100);
+                    Level.Instance().cells[x, y].monster.id = 0;
+                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
+                }
+                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_hp_1000)
+                {
+                    Player.Instance().AddHp(1000);
+                    Level.Instance().cells[x, y].monster.id = 0;
+                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
+                }
+                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_hp_10000)
+                {
+                    Player.Instance().AddHp(10000);
+                    Level.Instance().cells[x, y].monster.id = 0;
+                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
                 }
             }
         }
