@@ -38,26 +38,32 @@ public class PlayerMove : MonoBehaviour {
         }
         if (direct != -1)
         {
-            if ((int)transform.position.x + pos_x[direct] >= Level.width || (int)transform.position.x + pos_x[direct] < 0 || (int)transform.position.y + pos_y[direct] >= Level.height || (int)transform.position.y + pos_y[direct] < 0)
+            int x = (int)transform.position.x + pos_x[direct];
+            int y = (int)transform.position.y + pos_y[direct];
+            if (x >= Level.width || x < 0 || y >= Level.height || y < 0)
             {
                 return;
             }
-            if (Level.Instance().terrainData[(int)transform.position.x + pos_x[direct], (int)transform.position.y + pos_y[direct]] != (int)CellType.WALL)
+            if (Level.Instance().cells[x, y].monster.id != (int)CellType.WALL)
             {
-                transform.position = new Vector3((int)transform.position.x + pos_x[direct], (int)transform.position.y + pos_y[direct], -1);
-                if (Level.Instance().terrainData[(int)transform.position.x, (int)transform.position.y] == (int)CellType.UPSTAIRS)
+                transform.position = new Vector3(x, y, -1);
+                if (Level.Instance().cells[x, y].monster.id == (int)CellType.UPSTAIRS) 
                 {
                     if(Game.Instance().SetLevel(Game.currentLevel + 1))
                     {
                         transform.position = new Vector3(0, 0, -1);
                     }
                 }
-                else if (Level.Instance().terrainData[(int)transform.position.x, (int)transform.position.y] == (int)CellType.DOWNSTAIRS)
+                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.DOWNSTAIRS)
                 {
                     if(Game.Instance().SetLevel(Game.currentLevel - 1))
                     {
                         transform.position = new Vector3(Level.width - 1, Level.height - 1, -1);
                     }
+                }
+                else if(Level.Instance().cells[x, y].monster.id >= 1 && Level.Instance().cells[x, y].monster.id <= Level.maxData)
+                {
+                    Battle.battle(Player.Instance(), Level.Instance().cells[x, y].monster);
                 }
             }
         }

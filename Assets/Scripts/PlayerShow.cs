@@ -8,7 +8,8 @@ public class PlayerShow : MonoBehaviour {
     public Text hpText;
     public Text attackText;
     public Text defenceText;
-    
+    public Text goldText;
+
     void UpdateImformation(Player player)
     {
         if (player)
@@ -19,7 +20,7 @@ public class PlayerShow : MonoBehaviour {
             }
             if (hpText)
             {
-                hpText.text = player.hp + "/" + player.maxHp;
+                hpText.text = "" + player.hp;
             }
             if (attackText)
             {
@@ -28,6 +29,10 @@ public class PlayerShow : MonoBehaviour {
             if (defenceText)
             {
                 defenceText.text = player.defence + "%";
+            }
+            if (goldText)
+            {
+                goldText.text = "" + player.gold;
             }
         }
     }

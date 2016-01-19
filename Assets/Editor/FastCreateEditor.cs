@@ -21,12 +21,25 @@ public class FastCreateEditor
         {
             GameObject obj = ObjectPool.Instantiate(level, Vector3.zero, Quaternion.identity, terrain.transform);
             obj.name = "Level_" + i;
-            Game.levels[i] = obj.GetComponent<Level>();
-            Game.levels[i].CreateRandomMaze();
+            Level l = obj.GetComponentInChildren<Level>();
+            l.CreateRandomMaze();
+            if (i != 0)
+            {
+                l.gameObject.SetActive(false);
+            }
         }
-        for (int i = 1; i < Game.maxLevel; i++)
+    }
+
+    [MenuItem("FastCreate/添加地形")]
+    public static void AddTerrain()
+    {
+        for (int i = terrain.transform.childCount; i < Game.maxLevel; i++)
         {
-            Game.levels[i].gameObject.SetActive(false);
+            GameObject obj = ObjectPool.Instantiate(level, Vector3.zero, Quaternion.identity, terrain.transform);
+            obj.name = "Level_" + i;
+            Level l = obj.GetComponentInChildren<Level>();
+            l.CreateRandomMaze();
+            l.gameObject.SetActive(false);
         }
     }
 
@@ -37,5 +50,22 @@ public class FastCreateEditor
         {
             Object.DestroyImmediate(terrain.transform.GetChild(i).gameObject);
         }
+    }
+
+    [MenuItem("FastCreate/Test")]
+    public static void Test()
+    {
+        MonsterData m = Sql.GetMonsterData(1);
+        MonoBehaviour.print(m.id);
+        MonoBehaviour.print(m.hp);
+        MonoBehaviour.print(m.attack);
+        MonoBehaviour.print(m.defence);
+        MonoBehaviour.print(m.gold);
+    }
+
+    [MenuItem("FastCreate/关闭数据库连接")]
+    public static void ClosConnection()
+    {
+        Sql.CloseDB();
     }
 }

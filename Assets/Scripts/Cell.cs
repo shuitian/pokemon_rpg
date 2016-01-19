@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Cell : MonoBehaviour {
 
-    public int number;
+    public Monster monster;
 }
 public enum CellType
 {

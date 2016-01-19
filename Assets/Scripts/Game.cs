@@ -5,9 +5,10 @@ using System.Collections;
 public class Game : MonoBehaviour {
 
     static Game game;
-    public static int maxLevel = 3;
+    public static int maxLevel = 11;
     public static Level[] levels = new Level[maxLevel];
     public static int currentLevel;
+    public GameObject animaterObject;
     public Animator animator;
     public Text levelNumber;
     static public Game Instance()
@@ -21,12 +22,11 @@ public class Game : MonoBehaviour {
     // Use this for initialization
     void Start () {
         GameObject terrain = GameObject.FindGameObjectWithTag("Terrain");
-        if (terrain.transform.childCount == maxLevel)
+        int a = terrain.transform.childCount;
+        a = a > maxLevel ? maxLevel : a;
+        for (int i = 0; i < a; i++)
         {
-            for (int i = 0; i < terrain.transform.childCount; i++) 
-            {
-                levels[i] = terrain.transform.GetChild(i).GetComponent<Level>();
-            }
+            levels[i] = terrain.transform.GetChild(i).GetChild(0).GetComponent<Level>();
         }
         currentLevel = 0;
         SetLevel(0);
@@ -50,6 +50,7 @@ public class Game : MonoBehaviour {
             levelNumber.text = "第" + (level + 1) + "层";
             if (animator)
             {
+                animaterObject.SetActive(true);
                 animator.SetBool("Level", true); 
             }
             return true;
