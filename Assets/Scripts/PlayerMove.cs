@@ -14,6 +14,10 @@ public class PlayerMove : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (Game.Instance().battle.gameObject.activeInHierarchy || Game.Instance().restartGameObject.activeInHierarchy)
+        {
+            return;
+        }
         if(Time.time - lastTime < moveSpcae)
         {
             return;
@@ -63,7 +67,8 @@ public class PlayerMove : MonoBehaviour {
                 }
                 else if(Level.Instance().cells[x, y].monster.id >= 1 && Level.Instance().cells[x, y].monster.id <= LoadResources.maxMonster)
                 {
-                    Battle.battle(Player.Instance(), Level.Instance().cells[x, y].monster);
+                    Game.Instance().battle.gameObject.SetActive(true);
+                    Game.Instance().battle.battle(Player.Instance(), Level.Instance().cells[x, y].monster);
                 }
                 else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_attack_10)
                 {

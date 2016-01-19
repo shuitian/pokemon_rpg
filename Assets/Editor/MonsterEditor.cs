@@ -11,14 +11,16 @@ public class MonsterEditor : Editor
         Monster monster = (Monster)target;
         int t = monster.id;
         monster.id = EditorGUILayout.IntField("id", monster.id);
-        if (monster.id >= 1 && monster.id <= LoadResources.maxMonster)
+        if (t != monster.id && monster.id >= 1 && monster.id <= LoadResources.maxMonster)
         {
             MonsterData m = Sql.GetMonsterData(monster.id);
             monster.hp = m.hp;
+            monster.characterName = m.name;
             monster.attack = m.attack;
             monster.defence = m.defence;
             monster.gold = m.gold;
         }
+        EditorGUILayout.LabelField("name", monster.characterName.ToString());
         EditorGUILayout.LabelField("hp", monster.hp.ToString());
         EditorGUILayout.LabelField("attack", monster.attack.ToString());
         EditorGUILayout.LabelField("defence", monster.defence.ToString());

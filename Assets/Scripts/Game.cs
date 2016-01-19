@@ -12,6 +12,7 @@ public class Game : MonoBehaviour {
     public GameObject animaterObject;
     public Animator animator;
     public Text levelNumber;
+    public Battle battle;
     static public Game Instance()
     {
         return game;
@@ -35,12 +36,30 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            restartGameObject.SetActive(true);
+        }
         if (animator && !animator.IsInTransition(0)&& animator.GetBool("Level") && animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.ChangeLevel")) 
         {
             animator.SetBool("Level", false);
         }
     }
-	
+
+    public GameObject restartGameObject;
+    public void CancelRestart()
+    {
+        if (Player.Instance().hp > 0)
+        {
+            restartGameObject.SetActive(false);
+        }
+    }
+
+    public void Restart()
+    {
+        Application.LoadLevel(0);
+    }
+
     public bool SetLevel(int level)
     {
         if (level >= 0 && level < maxLevel)

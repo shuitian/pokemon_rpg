@@ -57,6 +57,7 @@ public class FastCreateEditor
     {
         MonsterData m = Sql.GetMonsterData(1);
         MonoBehaviour.print(m.id);
+        MonoBehaviour.print(m.name);
         MonoBehaviour.print(m.hp);
         MonoBehaviour.print(m.attack);
         MonoBehaviour.print(m.defence);

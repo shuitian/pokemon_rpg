@@ -75,10 +75,11 @@ public class Sql : MonoBehaviour {
         if (reader.Read())
         {
             monster.id = reader.GetInt32(0);
-            monster.hp = reader.GetFloat(1);
-            monster.attack = reader.GetFloat(2);
-            monster.defence = reader.GetFloat(3);
-            monster.gold = reader.GetInt32(4);
+            monster.name = reader.GetString(1);
+            monster.hp = reader.GetFloat(2);
+            monster.attack = reader.GetFloat(3);
+            monster.defence = reader.GetFloat(4);
+            monster.gold = reader.GetInt32(5);
         }
         reader.Dispose();
         return monster;

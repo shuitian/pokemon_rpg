@@ -16,7 +16,7 @@ public class PlayerShow : MonoBehaviour {
         {
             if (nameText)
             {
-                nameText.text = player.playerName;
+                nameText.text = player.characterName;
             }
             if (hpText)
             {

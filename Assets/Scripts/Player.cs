@@ -74,7 +74,11 @@ public class Player : Character {
     }
     #endregion
 
-    public string playerName = "水天";
+    public override void LoseHp(float p_hpLost)
+    {
+        base.LoseHp(p_hpLost);
+        Game.Instance().battle.info.text += "你受到" + p_hpLost + "点伤害\n";
+    }
 
     /// <summary>
     /// 角色死亡

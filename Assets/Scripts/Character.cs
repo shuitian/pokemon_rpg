@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Character : MonoBehaviour {
 
+    public string characterName = "水天";
     #region 角色组件
     /// <summary>
     /// 生命值
@@ -26,7 +27,7 @@ public class Character : MonoBehaviour {
     /// 无条件扣除相应生命值
     /// </summary>
     /// <param name="p_hpLost">生命值扣除量</param>
-    public void LoseHp(float p_hpLost)
+    public virtual void LoseHp(float p_hpLost)
     {
         if (p_hpLost < 0)
         {
@@ -35,6 +36,7 @@ public class Character : MonoBehaviour {
         hp -= p_hpLost;
         if (hp <= 0)
         {
+            hp = 0;
             die();
         }
     }

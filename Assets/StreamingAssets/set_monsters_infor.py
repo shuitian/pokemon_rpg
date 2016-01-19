@@ -25,6 +25,7 @@ class sql(object):
 
 		self.conn.execute('''CREATE TABLE MONSTER(
 			id INTEGER PRIMARY KEY,
+			name TEXT NOT NULL,
 			hp REAL NOT NULL,
 			attack REAL NOT NULL,
 			defence REAL NOT NULL,
@@ -51,10 +52,10 @@ class sql(object):
 			return True
 		return False
 
-	def insert_monster(self, hp, attack, defence, gold):
+	def insert_monster(self, name, hp, attack, defence, gold):
 		"""在MONSTER表中插入数据"""
-		self.execute("""INSERT INTO MONSTER (id,hp,attack,defence,gold) \
-			VALUES(NULL""" + ","+ "'" +hp + "'" + ","+ "'" +attack + "'" + ","+ "'" +defence + "'" + ","+ "'" +gold + "'" +")"
+		self.execute("""INSERT INTO MONSTER (id,name,hp,attack,defence,gold) \
+			VALUES(NULL""" + ","+ "'" +name + "'" + "," + "'" + hp + "'" + ","+ "'" +attack + "'" + ","+ "'" +defence + "'" + ","+ "'" +gold + "'" +")"
 			)
 		self.conn.commit()
 
@@ -68,19 +69,20 @@ class sql(object):
 			monster = monster.replace("\n","").replace("\r","").replace("\t"," ")
 			print monster
 			a =  monster.split(" ")
-			hp = float(a[0])
+			name = a[0]
+			hp = float(a[1])
 			if hp <= 0:
 				hp = 1
-			attack = float(a[1])
+			attack = float(a[2])
 			if attack < 0:
 				attack = 0
-			defence = float(a[2])
+			defence = float(a[3])
 			if defence > 100:
 				defence = 100
-			gold = float(a[3])
+			gold = float(a[4])
 			if gold < 0:
 				gold = 1
-			self.insert_monster(str(hp), str(attack), str(defence), str(gold))
+			self.insert_monster(name, str(hp), str(attack), str(defence), str(gold))
 
 if __name__ == '__main__':
 	"""创建怪物表"""
