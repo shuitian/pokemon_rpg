@@ -8,7 +8,7 @@ public class Monster : Character
     protected override void die()
     {
         base.die();
-        id = (int)CellType.ROAD;
+        GetComponent<Cell>().id = (int)CellType.ROAD;
         GetComponent<SpriteRenderer>().sprite = null;
         Player.Instance().AddGold(gold);
     }
@@ -16,7 +16,7 @@ public class Monster : Character
     public override void LoseHp(float p_hpLost)
     {
         base.LoseHp(p_hpLost);
-        Game.Instance().battle.info.text += "受到你的攻击，" + characterName + "失去" + p_hpLost + "点生命\n";
+        Game.Instance().battle.AddInfo("受到你的攻击，" + characterName + "失去" + p_hpLost + "点生命\n");
     }
 }
 

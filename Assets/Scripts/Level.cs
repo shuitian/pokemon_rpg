@@ -95,7 +95,7 @@ public class Level : MonoBehaviour {
                 {
                     cells[i, j].GetComponent<SpriteRenderer>().sprite = LoadResources.down_floor;
                 }
-                cells[i, j].monster.id = data[i, j];
+                cells[i, j].id = data[i, j];
             }
         }
     }

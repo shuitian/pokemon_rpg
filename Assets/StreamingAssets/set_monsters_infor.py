@@ -15,15 +15,24 @@ class sql(object):
 		self.conn.close()
 
 	def create_table(self):
-		"""如果数据库存在，则创建数据库并创建数据表，反之连接数据库"""
+		"""创建数据库并创建数据表"""
 		db = 'monsters.db'
 		if os.path.exists(db):
 			os.remove(db)
-			
+
 		self.conn = sqlite3.connect(db)
 		print "Open Success"
 
 		self.conn.execute('''CREATE TABLE MONSTER(
+			id INTEGER PRIMARY KEY,
+			name TEXT NOT NULL,
+			hp REAL NOT NULL,
+			attack REAL NOT NULL,
+			defence REAL NOT NULL,
+			gold INT NOT NULL
+		);''')
+
+		self.conn.execute('''CREATE TABLE ITEM(
 			id INTEGER PRIMARY KEY,
 			name TEXT NOT NULL,
 			hp REAL NOT NULL,
@@ -84,9 +93,40 @@ class sql(object):
 				gold = 1
 			self.insert_monster(name, str(hp), str(attack), str(defence), str(gold))
 
+	def insert_items(self, items):
+		for item in items:
+			item = item.replace("\n","").replace("\r","").replace("\t"," ")
+			print item
+			a =  item.split(" ")
+			name = a[0]
+			hp = float(a[1])
+			if hp <= 0:
+				hp = 1
+			attack = float(a[2])
+			if attack < 0:
+				attack = 0
+			defence = float(a[3])
+			if defence > 100:
+				defence = 100
+			gold = float(a[4])
+			if gold < 0:
+				gold = 1
+			self.insert_item(name, str(hp), str(attack), str(defence), str(gold))
+
+	def insert_item(self, name, hp, attack, defence, gold):
+		"""在ITEM表中插入数据"""
+		self.execute("""INSERT INTO ITEM (id,name,hp,attack,defence,gold) \
+			VALUES(NULL""" + ","+ "'" +name + "'" + "," + "'" + hp + "'" + ","+ "'" +attack + "'" + ","+ "'" +defence + "'" + ","+ "'" +gold + "'" +")"
+			)
+		self.conn.commit()
+
 if __name__ == '__main__':
 	"""创建怪物表"""
 	s = sql()
-	data = open("monsters.txt","r")
-	s.insert_monsters(data.readlines()[1:])
-	s.show_table_MONSTER()
+	monsters = open("monsters.txt","r")
+	items = open("items.txt","r")
+	s.insert_monsters(monsters.readlines()[1:])
+	s.insert_items(items.readlines()[1:])
+	
+
+

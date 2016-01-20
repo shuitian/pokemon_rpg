@@ -84,26 +84,60 @@ public class Battle :MonoBehaviour{
 
     public void battle(Player player, Monster monster)
     {
+        pass = false;
+        strs = new string[strs.Length];
+        temp = 0;
+        tip.text = "按P  跳过战斗过程\n按ESC    逃离战斗";
         this.player = player;
         this.monster = monster;
         ShowInfo();
-        info.text = "战斗开始\n";
+        AddInfo("战斗开始\n");
         isPlayerTurn = false;
     }
 
     bool isPlayerTurn;
     bool click = false;
+    bool fail = false;
+    bool pass;
+    public Text tip;
     void Update()
     {
         if (click)
         {
+            if (fail)
+            {
+                tip.text = "按任意键\n重新开始游戏";
+            }
+            else
+            {
+                tip.text = "按任意键返回游戏";
+            }
             if (Input.anyKeyDown)
             {
-                click = false;
-                gameObject.SetActive(false);
+                if (fail)
+                {
+                    Game.Instance().Restart();
+                }
+                else
+                {
+                    click = false;
+                    gameObject.SetActive(false);
+                }
+            }
+        }else
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                monster = null;
+                AddInfo("你逃离了战斗，战斗结束\n");
+                click = true;
+            }
+            else if (Input.GetKeyDown(KeyCode.P))
+            {
+                pass = true;
             }
         }
-        if(Time.time - lastTime<battleSpcae)
+        if (!pass && Time.time - lastTime < battleSpcae)
         {
             return;
         }
@@ -124,17 +158,39 @@ public class Battle :MonoBehaviour{
                 }
                 UpdateMonsterInformation();
                 UpdatePlayerInformation();
-                if (player.hp <= 0 && info)
+                if (player.hp <= 0)
                 {
-                    info.text += "战斗失败\n";
-                    click = false;
+                    AddInfo("战斗失败\n");
+                    click = true;
+                    fail = true;
                 }
-                else if (monster.hp <= 0 && info)
+                else if (monster.hp <= 0)
                 {
-                    info.text += "战斗胜利，获得金币" + monster.gold + "\n";
+                    AddInfo("战斗胜利，获得金币" + monster.gold + "\n");
                     click = true;
                 }
             }
+        }
+    }
+
+    string[] strs = new string[6];
+    int temp;
+    public void AddInfo(string str)
+    {
+        strs[temp] = str;
+        string s = "";
+        for(int i = temp + 1; i < strs.Length; i++)
+        {
+            s += strs[i];
+        }
+        for (int i = 0; i < temp + 1; i++)
+        {
+            s += strs[i];
+        }
+        temp = (temp + 1) % strs.Length;
+        if (info)
+        {
+            info.text = s;
         }
     }
 }

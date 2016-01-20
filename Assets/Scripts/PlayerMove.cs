@@ -14,8 +14,9 @@ public class PlayerMove : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Game.Instance().battle.gameObject.activeInHierarchy || Game.Instance().restartGameObject.activeInHierarchy)
+        if (Game.Instance().battle.gameObject.activeInHierarchy)
         {
+            lastTime = Time.time;
             return;
         }
         if(Time.time - lastTime < moveSpcae)
@@ -23,23 +24,25 @@ public class PlayerMove : MonoBehaviour {
             return;
         }
         lastTime = Time.time;
-        int direct = -1;    
-	    if(Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        float t_x = 0;
+        float t_y = 0;
+        if (Input.GetKey(KeyCode.RightArrow))
         {
-            direct = 0;
+            t_x = 1;
         }
-        else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        else if (Input.GetKey(KeyCode.LeftArrow))
         {
-            direct = 1;
+            t_x = -1;
         }
-        else if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.UpArrow))
         {
-            direct = 2;
+            t_y = 1;
         }
-        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
-            direct = 3;
+            t_y = -1;
         }
+        int direct = (t_x == 0) ? ((t_y == 0) ? -1 : ((t_y > 0) ? 1 : 2)) : ((t_x > 0) ? 0 : 3);
         if (direct != -1)
         {
             int x = (int)transform.position.x + pos_x[direct];
@@ -48,59 +51,39 @@ public class PlayerMove : MonoBehaviour {
             {
                 return;
             }
-            if (Level.Instance().cells[x, y].monster.id != (int)CellType.WALL)
+            if (Level.Instance().cells[x, y].IsRoad())
             {
                 transform.position = new Vector3(x, y, -1);
-                if (Level.Instance().cells[x, y].monster.id == (int)CellType.up_floor) 
+            }
+            else if (Level.Instance().cells[x, y].IsUpFloor())
+            {
+                transform.position = new Vector3(x, y, -1);
+                if (Game.Instance().SetLevel(Game.currentLevel + 1))
                 {
-                    if(Game.Instance().SetLevel(Game.currentLevel + 1))
-                    {
-                        transform.position = new Vector3(0, 0, -1);
-                    }
+                    transform.position = new Vector3(0, 0, -1);
                 }
-                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.down_floor)
+            }
+            else if (Level.Instance().cells[x, y].IsDownFloor())
+            {
+                transform.position = new Vector3(x, y, -1);
+                if (Game.Instance().SetLevel(Game.currentLevel - 1))
                 {
-                    if(Game.Instance().SetLevel(Game.currentLevel - 1))
-                    {
-                        transform.position = new Vector3(Level.width - 1, Level.height - 1, -1);
-                    }
+                    transform.position = new Vector3(Level.width - 1, Level.height - 1, -1);
                 }
-                else if(Level.Instance().cells[x, y].monster.id >= 1 && Level.Instance().cells[x, y].monster.id <= LoadResources.maxMonster)
-                {
-                    Game.Instance().battle.gameObject.SetActive(true);
-                    Game.Instance().battle.battle(Player.Instance(), Level.Instance().cells[x, y].monster);
-                }
-                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_attack_10)
-                {
-                    Player.Instance().attack += 10;
-                    Level.Instance().cells[x, y].monster.id = 0;
-                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
-                }
-                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_defence_1)
-                {
-                    Player.Instance().defence += 1;
-                    Level.Instance().cells[x, y].monster.id = 0;
-                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
-                }
-                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_hp_100)
-                {
-                    Player.Instance().AddHp(100);
-                    Level.Instance().cells[x, y].monster.id = 0;
-                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
-                }
-                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_hp_1000)
-                {
-                    Player.Instance().AddHp(1000);
-                    Level.Instance().cells[x, y].monster.id = 0;
-                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
-                }
-                else if (Level.Instance().cells[x, y].monster.id == (int)CellType.add_hp_10000)
-                {
-                    Player.Instance().AddHp(10000);
-                    Level.Instance().cells[x, y].monster.id = 0;
-                    Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
-                }
+            }
+            else if (Level.Instance().cells[x, y].IsMonster())
+            {
+                Game.Instance().battle.gameObject.SetActive(true);
+                Game.Instance().battle.battle(Player.Instance(), Level.Instance().cells[x, y].monster);
+            }
+            else if (Level.Instance().cells[x, y].IsItem())
+            {
+                Player.Instance().GetItem(Level.Instance().cells[x, y].item);
+                Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
+                Level.Instance().cells[x, y].id = (int)CellType.ROAD;
             }
         }
     }
+
+   
 }

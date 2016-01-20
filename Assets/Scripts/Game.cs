@@ -10,9 +10,9 @@ public class Game : MonoBehaviour {
     public static Level[] levels = new Level[maxLevel];
     public static int currentLevel;
     public GameObject animaterObject;
-    public Animator animator;
-    public Text levelNumber;
     public Battle battle;
+    public Text messageBox;
+    public GameObject messageObject;
     static public Game Instance()
     {
         return game;
@@ -36,22 +36,20 @@ public class Game : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (messageObject.activeInHierarchy)
+        {
+            if (click && Input.anyKeyDown)
+            {
+                messageObject.SetActive(false);
+            }
+        }
         if (Input.GetKeyDown(KeyCode.R))
         {
-            restartGameObject.SetActive(true);
+            Restart();
         }
-        if (animator && !animator.IsInTransition(0)&& animator.GetBool("Level") && animator.GetCurrentAnimatorStateInfo(0).IsName("Base Layer.ChangeLevel")) 
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            animator.SetBool("Level", false);
-        }
-    }
-
-    public GameObject restartGameObject;
-    public void CancelRestart()
-    {
-        if (Player.Instance().hp > 0)
-        {
-            restartGameObject.SetActive(false);
+            Application.Quit();
         }
     }
 
@@ -67,12 +65,6 @@ public class Game : MonoBehaviour {
             levels[currentLevel].gameObject.SetActive(false);
             levels[level].gameObject.SetActive(true);
             currentLevel = level;
-            levelNumber.text = "第" + (level + 1) + "层";
-            if (animator)
-            {
-                animaterObject.SetActive(true);
-                animator.SetBool("Level", true); 
-            }
             return true;
         }
         if (level >= maxLevel)
@@ -82,13 +74,34 @@ public class Game : MonoBehaviour {
         return false;
     }
 
-    static public void Lose()
+    public void Lose()
     {
-        print("You Fail!");
+        ShowMessage("你输了，请按任意键重新开始游戏!");
     }
 
-    static public void Win()
+    public void Win()
     {
-        print("You Win!");
+        ShowMessage("恭喜你，你赢了!");
+    }
+
+    public void ShowMessage(string str)
+    {
+        messageObject.SetActive(true);
+        click = false;
+        if (messageBox)
+        {
+            StartCoroutine(_ShowMessage(str));
+        }
+    }
+
+    bool click = false;
+    IEnumerator _ShowMessage(string str)
+    {
+        for (int i = 0; i < str.Length; i++)
+        {
+            messageBox.text = str.Substring(0, i); ;
+            yield return 0;
+        }
+        click = true;
     }
 }

@@ -84,4 +84,22 @@ public class Sql : MonoBehaviour {
         reader.Dispose();
         return monster;
     }
+
+    static public ItemData GetItemData(int id)
+    {
+        string query = "SELECT * FROM ITEM where id = " + id;
+        reader = ExecuteQuery(query);
+        ItemData item = new ItemData();
+        if (reader.Read())
+        {
+            item.id = reader.GetInt32(0);
+            item.name = reader.GetString(1);
+            item.addHp = reader.GetFloat(2);
+            item.addAttack = reader.GetFloat(3);
+            item.addDefence = reader.GetFloat(4);
+            item.addGold = reader.GetInt32(5);
+        }
+        reader.Dispose();
+        return item;
+    }
 }

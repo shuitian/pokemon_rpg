@@ -77,7 +77,7 @@ public class Player : Character {
     public override void LoseHp(float p_hpLost)
     {
         base.LoseHp(p_hpLost);
-        Game.Instance().battle.info.text += "你受到" + p_hpLost + "点伤害\n";
+        Game.Instance().battle.AddInfo("你受到" + p_hpLost + "点伤害\n");
     }
 
     /// <summary>
@@ -86,6 +86,33 @@ public class Player : Character {
     protected override void die()
     {
         base.die();
-        Game.Lose();
+        Game.Instance().Lose();
+    }
+
+    public void GetItem(Item item)
+    {
+        Player.Instance().hp += item.addHp;
+        Player.Instance().attack += item.addAttack;
+        Player.Instance().defence += item.addDefence;
+        Player.Instance().gold += item.addGold;
+        string str = "你获得了" + item.itemName;
+        if (item.addHp > 0)
+        {
+            str += ",生命值增加了" + item.addHp;
+        }
+        if (item.addAttack > 0)
+        {
+            str += ",攻击力增加了" + item.addAttack;
+        }
+        if (item.addDefence > 0)
+        {
+            str += ",防御力增加了" + item.addDefence;
+        }
+        if (item.addGold > 0)
+        {
+            str += ",金币增加了" + item.addGold;
+        }
+        str += "。";
+        Game.Instance().ShowMessage(str);
     }
 }
