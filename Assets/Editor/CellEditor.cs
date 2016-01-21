@@ -28,10 +28,10 @@ public class CellEditor : Editor {
                 MonsterData m = Sql.GetMonsterData(cell.id);
                 Monster monster = cell.GetComponent<Monster>();
                 monster.id = cell.id;
-                monster.hp = m.hp;
+                monster.SetHp(m.hp);
                 monster.characterName = m.name;
-                monster.attack = m.attack;
-                monster.defence = m.defence;
+                monster.SetAttack(m.attack);
+                monster.SetDefence(m.defence);
                 monster.gold = m.gold;
             }
             else if(cell.IsItem())

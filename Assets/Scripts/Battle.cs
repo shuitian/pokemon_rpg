@@ -17,12 +17,13 @@ public class Battle :MonoBehaviour{
     public Text monsterHpText;
     public Text monsterAttackText;
     public Text monsterDefenceText;
+    public AudioSource battleSound;
 
     void UpdatePlayerInformation()
     {
         if (player && playerHpText)
         {
-            playerHpText.text = "" + player.hp;
+            playerHpText.text = "" + player.GetCurrentHp();
         }
     }
 
@@ -30,7 +31,7 @@ public class Battle :MonoBehaviour{
     {
         if (monster && monsterHpText) 
         {
-            monsterHpText.text = "" + monster.hp;
+            monsterHpText.text = "" + monster.GetCurrentHp();
         }
     }
 
@@ -46,15 +47,15 @@ public class Battle :MonoBehaviour{
             }
             if (playerHpText)
             {
-                playerHpText.text = "" + player.hp;
+                playerHpText.text = "" + player.GetCurrentHp();
             }
             if (playerAttackText)
             {
-                playerAttackText.text = "" + player.attack;
+                playerAttackText.text = "" + player.GetAttack();
             }
             if (monsterNameText)
             {
-                monsterNameText.text = player.defence + "%";
+                monsterNameText.text = player.GetDefence() + "%";
             }
         }
         if (monster)
@@ -69,15 +70,15 @@ public class Battle :MonoBehaviour{
             }
             if (monsterHpText)
             {
-                monsterHpText.text = "" + monster.hp;
+                monsterHpText.text = "" + monster.GetCurrentHp();
             }
             if (monsterAttackText)
             {
-                monsterAttackText.text = "" + monster.attack;
+                monsterAttackText.text = "" + monster.GetAttack();
             }
             if (monsterDefenceText)
             {
-                monsterDefenceText.text = monster.defence + "%";
+                monsterDefenceText.text = monster.GetDefence() + "%";
             }
         }
     }
@@ -144,7 +145,7 @@ public class Battle :MonoBehaviour{
         lastTime = Time.time;
         if (player && monster)
         {
-            if (player.hp > 0 && monster.hp > 0)
+            if (player.GetCurrentHp() > 0 && monster.GetCurrentHp() > 0)
             {
                 if (isPlayerTurn)
                 {
@@ -156,15 +157,19 @@ public class Battle :MonoBehaviour{
                     monster.Attack(player);
                     isPlayerTurn = true;
                 }
+                if (battleSound && Game.sound && !pass)
+                {
+                    battleSound.Play();
+                }
                 UpdateMonsterInformation();
                 UpdatePlayerInformation();
-                if (player.hp <= 0)
+                if (player.GetCurrentHp() <= 0)
                 {
                     AddInfo("战斗失败\n");
                     click = true;
                     fail = true;
                 }
-                else if (monster.hp <= 0)
+                else if (monster.GetCurrentHp() <= 0)
                 {
                     AddInfo("战斗胜利，获得金币" + monster.gold + "\n");
                     click = true;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityTool.Libgame;
 
 public class Player : Character {
 
@@ -17,7 +18,8 @@ public class Player : Character {
     /// <summary>
     /// 当前金币
     /// </summar>
-    public float gold = 0;
+    [SerializeField]
+    float gold = 0;
 
     /// <summary>
     /// 获取当前金钱
@@ -39,6 +41,7 @@ public class Player : Character {
             p_gold = 0;
         }
         this.gold += p_gold;
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
     }
 
     /// <summary>
@@ -52,6 +55,7 @@ public class Player : Character {
             p_gold = 0;
         }
         this.gold -= p_gold;
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
     }
 
     /// <summary>
@@ -68,6 +72,7 @@ public class Player : Character {
         if (this.gold >= p_gold)
         {
             this.gold -= p_gold;
+            Message.RaiseOneMessage<Player>("PlayerShow", this, this);
             return true;
         }
         return false;
@@ -78,6 +83,7 @@ public class Player : Character {
     {
         base.LoseHp(p_hpLost);
         Game.Instance().battle.AddInfo("你受到" + p_hpLost + "点伤害\n");
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
     }
 
     /// <summary>
@@ -91,10 +97,11 @@ public class Player : Character {
 
     public void GetItem(Item item)
     {
-        Player.Instance().hp += item.addHp;
-        Player.Instance().attack += item.addAttack;
-        Player.Instance().defence += item.addDefence;
-        Player.Instance().gold += item.addGold;
+        Player.Instance().AddHp(item.addHp);
+        Player.Instance().AddAttack(item.addAttack);
+        Player.Instance().AddDefence(item.addDefence);
+        Player.Instance().AddGold(item.addGold);
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
         string str = "你获得了" + item.itemName;
         if (item.addHp > 0)
         {
@@ -114,5 +121,41 @@ public class Player : Character {
         }
         str += "。";
         Game.Instance().ShowMessage(str);
+    }
+
+    public override void AddAttack(float at)
+    {
+        base.AddAttack(at);
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
+    }
+
+    public override void AddDefence(float de)
+    {
+        base.AddDefence(de);
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
+    }
+
+    public override void AddHp(float p_hpObtained)
+    {
+        base.AddHp(p_hpObtained);
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
+    }
+
+    public override void SetAttack(float at)
+    {
+        base.SetAttack(at);
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
+    }
+
+    public override void SetDefence(float de)
+    {
+        base.SetDefence(de);
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
+    }
+
+    public override void SetHp(float hp)
+    {
+        base.SetHp(hp);
+        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
     }
 }

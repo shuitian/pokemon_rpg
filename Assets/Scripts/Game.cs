@@ -9,10 +9,14 @@ public class Game : MonoBehaviour {
     public static int maxLevel = 10;
     public static Level[] levels = new Level[maxLevel];
     public static int currentLevel;
-    public GameObject animaterObject;
     public Battle battle;
+    public GameObject battleGameObject;
     public Text messageBox;
     public GameObject messageObject;
+    public GameObject techTree;
+    static public bool sound = true;
+    public AudioSource winAudioSource;
+    public AudioSource loseAudioSource;
     static public Game Instance()
     {
         return game;
@@ -43,13 +47,34 @@ public class Game : MonoBehaviour {
                 messageObject.SetActive(false);
             }
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.R))
         {
             Restart();
         }
-        if (Input.GetKeyDown(KeyCode.Q))
+        else if (Input.GetKeyDown(KeyCode.H))
+        {
+            if (sound)
+            {
+                sound = false;
+            }else
+            {
+                sound = true;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
             Application.Quit();
+        }
+        else if (Input.GetKeyDown(KeyCode.K) && !battleGameObject.activeInHierarchy)
+        {
+            if (techTree && techTree.activeInHierarchy)
+            {
+                techTree.SetActive(false);
+            }
+            else if (techTree && !techTree.activeInHierarchy)
+            {
+                techTree.SetActive(true);
+            }
         }
     }
 
@@ -58,13 +83,31 @@ public class Game : MonoBehaviour {
         Application.LoadLevel(0);
     }
 
+    public Text levelText;
     public bool SetLevel(int level)
     {
         if (level >= 0 && level < maxLevel)
         {
             levels[currentLevel].gameObject.SetActive(false);
             levels[level].gameObject.SetActive(true);
+            AudioSource source = Player.Instance().GetComponent<AudioSource>();
+            if (levels[level].type == LevelType.grass)
+            {
+                source.clip = LoadResources.grass_sound;
+            }
+            else if (levels[level].type == LevelType.road)
+            {
+                source.clip = LoadResources.road_sound;
+            }
+            else if (levels[level].type == LevelType.water)
+            {
+                source.clip = LoadResources.water_sound;
+            }
             currentLevel = level;
+            if (levelText)
+            {
+                levelText.text = "第 " + (currentLevel + 1) + " /" + Game.maxLevel + " 层";
+            }
             return true;
         }
         if (level >= maxLevel)
@@ -77,11 +120,19 @@ public class Game : MonoBehaviour {
     public void Lose()
     {
         ShowMessage("你输了，请按任意键重新开始游戏!");
+        if(loseAudioSource && Game.sound)
+        {
+            loseAudioSource.Play();
+        }
     }
 
     public void Win()
     {
         ShowMessage("恭喜你，你赢了!");
+        if (winAudioSource && Game.sound)
+        {
+            winAudioSource.Play();
+        }
     }
 
     public void ShowMessage(string str)

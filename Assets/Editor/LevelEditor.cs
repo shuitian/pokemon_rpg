@@ -32,11 +32,11 @@ public class LevelEditor : Editor
             level.SetColor(Color.white);
             level.GetComponent<SpriteRenderer>().sprite = LoadResources.road;
         }
-        if (GUILayout.Button("大红"))
-        {
-            level.SetColor(Color.red);
-            level.GetComponent<SpriteRenderer>().sprite = LoadResources.road;
-        }
+        //if (GUILayout.Button("大红"))
+        //{
+        //    level.SetColor(Color.red);
+        //    level.GetComponent<SpriteRenderer>().sprite = LoadResources.road;
+        //}
     }
 }
 

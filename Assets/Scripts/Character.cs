@@ -8,13 +8,19 @@ public class Character : MonoBehaviour {
     /// <summary>
     /// 生命值
     /// </summary>
-    public float hp;
+    [SerializeField]
+    float hp;
+
+    public virtual void SetHp(float hp)
+    {
+        this.hp = hp;
+    }
 
     /// <summary>
     /// 获得生命值
     /// </summary>
     /// <param name="p_hpObtained">生命值获得量</param>
-    public void AddHp(float p_hpObtained)
+    public virtual void AddHp(float p_hpObtained)
     {
         if (p_hpObtained < 0)
         {
@@ -62,9 +68,49 @@ public class Character : MonoBehaviour {
     {
     }
 
-    public float attack;
+    [SerializeField]
+    float attack;
     [Range(0, 100)]
-    public float defence;
+    [SerializeField]
+    float defence;
+
+    public float GetAttack()
+    {
+        return attack;
+    }
+
+    public virtual void SetAttack(float at)
+    {
+        attack = at;
+    }
+
+    public virtual void AddAttack(float at)
+    {
+        attack += at;
+    }
+
+    public virtual void AddDefence(float de)
+    {
+        defence += de;
+        if (defence > 100)
+        {
+            defence = 100;
+        }
+        if (defence < 0)
+        {
+            defence = 0;
+        }
+    }
+
+    public virtual void SetDefence(float de)
+    {
+        defence = de;
+    }
+
+    public float GetDefence()
+    {
+        return defence;
+    }
 
     public virtual void Attack(Character target)
     {

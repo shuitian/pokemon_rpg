@@ -7,6 +7,7 @@ public class PlayerMove : MonoBehaviour {
     static public int[] pos_y = { 0, 1, -1, 0 };
     public float moveSpcae = 0.5F;
     float lastTime = 0;
+    public AudioSource sound;
     // Use this for initialization
     void Start () {
         transform.position = new Vector3(0, 0, -1);
@@ -14,7 +15,7 @@ public class PlayerMove : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Game.Instance().battle.gameObject.activeInHierarchy)
+        if (Game.Instance().battle.gameObject.activeInHierarchy || Game.Instance().techTree.activeInHierarchy)
         {
             lastTime = Time.time;
             return;
@@ -53,7 +54,11 @@ public class PlayerMove : MonoBehaviour {
             }
             if (Level.Instance().cells[x, y].IsRoad())
             {
-                transform.position = new Vector3(x, y, -1);
+                transform.position = new Vector3(x * 1.04F, y, -1);
+                if (sound && Game.sound)
+                {
+                    sound.Play();
+                }
             }
             else if (Level.Instance().cells[x, y].IsUpFloor())
             {
@@ -81,6 +86,10 @@ public class PlayerMove : MonoBehaviour {
                 Player.Instance().GetItem(Level.Instance().cells[x, y].item);
                 Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
                 Level.Instance().cells[x, y].id = (int)CellType.ROAD;
+                if (Game.Instance().winAudioSource && Game.sound)
+                {
+                    Game.Instance().winAudioSource.Play();
+                }
             }
         }
     }

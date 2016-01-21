@@ -23,19 +23,30 @@ public class LoadResources : MonoBehaviour {
     public static Sprite add_hp_100 = Resources.Load<Sprite>("Texture/add_hp_100");
     public static Sprite add_hp_1000 = Resources.Load<Sprite>("Texture/add_hp_1000");
     public static Sprite add_hp_10000 = Resources.Load<Sprite>("Texture/add_hp_10000");
+
+    static public GameObject arrow = Resources.Load("Prefabs/Arrow") as GameObject;
+
+    static public AudioClip grass_sound = Resources.Load<AudioClip>("Sound/grass");
+    static public AudioClip road_sound = Resources.Load<AudioClip>("Sound/road");
+    static public AudioClip water_sound = Resources.Load<AudioClip>("Sound/water");
     void Awake()
     {
-        blue = Resources.Load<Sprite>("Texture/blue");
-        road = Resources.Load<Sprite>("Texture/road");
-        wall = Resources.Load<Sprite>("Texture/wall");
-        monsters = Resources.LoadAll<Sprite>("Texture/pics");
-        cell = Resources.Load("Prefabs/Cell") as GameObject;
-        up_floor = Resources.Load<Sprite>("Texture/up_floor");
-        down_floor = Resources.Load<Sprite>("Texture/down_floor");
-        add_attack_10 = Resources.Load<Sprite>("Texture/add_attack_10");
-        add_defence_1 = Resources.Load<Sprite>("Texture/add_defence_1");
-        add_hp_100 = Resources.Load<Sprite>("Texture/add_hp_100");
-        add_hp_1000 = Resources.Load<Sprite>("Texture/add_hp_1000");
-        add_hp_10000 = Resources.Load<Sprite>("Texture/add_hp_10000");
-    }
+        //blue = Resources.Load<Sprite>("Texture/blue");
+        //road = Resources.Load<Sprite>("Texture/road");
+        //wall = Resources.Load<Sprite>("Texture/wall");
+        //monsters = Resources.LoadAll<Sprite>("Texture/pics");
+        //cell = Resources.Load("Prefabs/Cell") as GameObject;
+        //up_floor = Resources.Load<Sprite>("Texture/up_floor");
+        //down_floor = Resources.Load<Sprite>("Texture/down_floor");
+        //add_attack_10 = Resources.Load<Sprite>("Texture/add_attack_10");
+        //add_defence_1 = Resources.Load<Sprite>("Texture/add_defence_1");
+        //add_hp_100 = Resources.Load<Sprite>("Texture/add_hp_100");
+        //add_hp_1000 = Resources.Load<Sprite>("Texture/add_hp_1000");
+        //add_hp_10000 = Resources.Load<Sprite>("Texture/add_hp_10000");
+        //arrow = Resources.Load("Prefabs/Arrow") as GameObject;
+
+        grass_sound = Resources.Load<AudioClip>("Sound/grass");
+        road_sound = Resources.Load<AudioClip>("Sound/road");
+        water_sound = Resources.Load<AudioClip>("Sound/water");
+}
 }

@@ -2,6 +2,13 @@
 using System.Collections;
 using UnityTool.Libgame;
 
+public enum LevelType
+{
+    grass,
+    water,
+    road,
+}
+
 public class Level : MonoBehaviour {
 
     public GameObject self;
@@ -9,7 +16,7 @@ public class Level : MonoBehaviour {
     public static int height = 10;
     int[,] data = new int[width, height];
     public Cell[,] cells = new Cell[width, height];
-
+    public LevelType type;
     static public Level Instance()
     {
         return Game.levels[Game.currentLevel];
@@ -17,6 +24,18 @@ public class Level : MonoBehaviour {
     void Awake()
     {
         SetTerrainData();
+        if (GetComponent<SpriteRenderer>().color == new Color(125 / 255.0F, 252 / 255.0F, 0 / 255.0F))
+        {
+            type = LevelType.grass;
+        }
+        else if (GetComponent<SpriteRenderer>().sprite == LoadResources.blue)
+        {
+            type = LevelType.water;
+        }
+        else// if (GetComponent<SpriteRenderer>().sprite == LoadResources.road)
+        {
+            type = LevelType.road;
+        }
         //LoadResource();
     }
 

@@ -11,6 +11,10 @@ public class Monster : Character
         GetComponent<Cell>().id = (int)CellType.ROAD;
         GetComponent<SpriteRenderer>().sprite = null;
         Player.Instance().AddGold(gold);
+        if (Game.Instance().winAudioSource && Game.sound)
+        {
+            Game.Instance().winAudioSource.Play();
+        }
     }
 
     public override void LoseHp(float p_hpLost)

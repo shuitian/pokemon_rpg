@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityTool.Libgame;
+using System.Collections.Generic;
 
 public class TechTreeNode : MonoBehaviour {
 
@@ -15,18 +17,107 @@ public class TechTreeNode : MonoBehaviour {
         }
     }
     string _nodeName;
-    public string info;
+    
+    public string info
+    {
+        get
+        {
+            if (_info == null)
+            {
+                _info = "耗费" + gold + "金币，学习" + nodeName;
+                if (hp > 0)
+                {
+                    _info += "，增加生命值" + hp;
+                }
+                if (attack > 0)
+                {
+                    _info += "，增加攻击力" + attack;
+                }
+                if (defence > 0)
+                {
+                    _info += "，增加防御力" + defence;
+                }
+                _info += "。";
+            }
+            return _info;
+        }
+    }
+    string _info;
     public ArrowType arrowType;
     public bool isLighting;
-    public TechTreeNode[] parents;
+    List<TechTreeNode> parents = new List<TechTreeNode>();
     public int gold;
     public int hp;
     public int attack;
     public int defence;
     public Text infoText;
-    public TechTreeNode[] GetParents()
+    public List<TechTreeNode> GetParents()
     {
         return parents;
+    }
+
+    void Awake()
+    {
+        int n = transform.childCount;
+        for(int i = 1; i < n; i++)
+        {
+            Arrow arrow = transform.GetChild(i).GetChild(0).GetComponent<Arrow>();
+            arrow.end.parents.Add(arrow.start);
+        }
+    }
+    
+    public void AddParent(TechTreeNode parent, Vector3 startPoint, Vector3 endPoint)
+    {
+        //parents.Add(parent);
+        if (!LoadResources.arrow)
+        {
+            return;
+        }
+        float x = endPoint.x - startPoint.x;
+        Arrow arrow;
+        if (startPoint.y == endPoint.y)
+        {
+            GameObject arrowObject = ObjectPool.Instantiate(LoadResources.arrow, startPoint, Quaternion.identity, parent.transform);
+            arrow = arrowObject.GetComponentInChildren<Arrow>();
+            arrow.line_0.SetPosition(0, new Vector3(-0.015F, 0, -0.1F));
+            arrow.line_0.SetPosition(1, new Vector3(x * 0.85F, 0, -0.1F));
+            arrow.line_0.SetWidth(0.1F, 0.1F);
+
+            arrow.line_1.SetPosition(0, new Vector3(x * 0.85F, 0, -0.1F));
+            arrow.line_1.SetPosition(1, new Vector3(x, 0, -0.1F));
+            arrow.line_1.SetWidth(x * 0.15F, 0);
+
+            arrow.corner_1.SetActive(false);
+            arrow.corner_2.SetActive(false);
+            arrow.line_2.gameObject.SetActive(false);
+            arrow.line_3.gameObject.SetActive(false);
+        }
+        else
+        {
+            float y = endPoint.y - startPoint.y;
+            GameObject arrowObject = ObjectPool.Instantiate(LoadResources.arrow, startPoint, Quaternion.identity, parent.transform);
+            arrow = arrowObject.GetComponentInChildren<Arrow>();
+            arrow.line_0.SetPosition(0, new Vector3(-0.015F, 0, -0.1F));
+            arrow.line_0.SetPosition(1, new Vector3(x * 0.3F, 0, -0.1F));
+            arrow.line_0.SetWidth(0.1F, 0.1F);
+
+            arrow.line_1.SetPosition(0, new Vector3(x * 0.3F, 0, -0.1F));
+            arrow.line_1.SetPosition(1, new Vector3(x * 0.7F, y, -0.1F));
+            arrow.line_1.SetWidth(0.1F, 0.1F);
+
+            arrow.line_2.SetPosition(0, new Vector3(x * 0.7F, y, -0.1F));
+            arrow.line_2.SetPosition(1, new Vector3(x * 0.85F, y, -0.1F));
+            arrow.line_2.SetWidth(0.1F, 0.1F);
+
+            arrow.line_3.SetPosition(0, new Vector3(x * 0.85F, y, -0.1F));
+            arrow.line_3.SetPosition(1, new Vector3(x, y, -0.1F));
+            arrow.line_3.SetWidth(x * 0.15F, 0);
+
+            arrow.corner_1.transform.localPosition = new Vector3(x * 0.3F + 0.005F, y > 0 ? -0.005F : 0.005F, 0);
+            arrow.corner_2.transform.localPosition = new Vector3(x * 0.7F - 0.005F, y - (y > 0 ? -0.005F : 0.005F), 0);
+        }
+        arrow.start = parent;
+        arrow.end = this;
     }
 
     public void Light()
@@ -34,8 +125,8 @@ public class TechTreeNode : MonoBehaviour {
         isLighting = true;
         Player.Instance().LoseGold(gold);
         Player.Instance().AddHp(hp);
-        Player.Instance().attack += attack;
-        Player.Instance().defence += defence;
+        Player.Instance().AddAttack(attack);
+        Player.Instance().AddDefence(defence);
         infoText.text = "项目学习成功";
         ColorBlock colorblock = ColorBlock.defaultColorBlock;
         Color color = new Color(246 / 255.0F, 116 / 255.0F, 116 / 255.0F);
@@ -47,14 +138,30 @@ public class TechTreeNode : MonoBehaviour {
 
     public bool Check()
     {
+        if (_Check())
+        {
+            if (Game.sound && Game.Instance().winAudioSource)
+            {
+                Game.Instance().winAudioSource.Play();
+            }
+            return true;
+        }
+        if (Game.sound && Game.Instance().loseAudioSource)
+        {
+            Game.Instance().loseAudioSource.Play();
+        }
+        return false;
+    }
+    bool _Check()
+    {
         if (isLighting)
         {
             infoText.text = "对不起，已经学习该项目";
             return false;
         }
-        if (Player.Instance().gold < gold)
+        if (Player.Instance().GetCurrentGold() < gold)
         {
-            infoText.text = "对不起，金币不足，需要金币" + gold + "，你拥有" + Player.Instance().gold;
+            infoText.text = "对不起，金币不足，需要金币" + gold + "，你拥有" + Player.Instance().GetCurrentGold();
             return false;
         }
         if(arrowType == ArrowType.OR)
@@ -97,10 +204,3 @@ public class TechTreeNode : MonoBehaviour {
         TechTree.current = this;
     }
 }
-
-public enum ArrowType
-{
-    AND,
-    OR,
-}
-
