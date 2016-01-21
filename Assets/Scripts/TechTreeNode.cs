@@ -51,7 +51,6 @@ public class TechTreeNode : MonoBehaviour {
     public int hp;
     public int attack;
     public int defence;
-    public Text infoText;
     public List<TechTreeNode> GetParents()
     {
         return parents;
@@ -134,7 +133,7 @@ public class TechTreeNode : MonoBehaviour {
         Player.Instance().AddHp(hp);
         Player.Instance().AddAttack(attack);
         Player.Instance().AddDefence(defence);
-        infoText.text = "项目学习成功";
+        TechTree.Instance().textInfo.text = "项目学习成功";
         ColorBlock colorblock = ColorBlock.defaultColorBlock;
         Color color = new Color(246 / 255.0F, 116 / 255.0F, 116 / 255.0F);
         colorblock.normalColor = color;
@@ -163,12 +162,12 @@ public class TechTreeNode : MonoBehaviour {
     {
         if (isLighting)
         {
-            infoText.text = "对不起，已经学习项目" + nodeName;
+            TechTree.Instance().textInfo.text = "对不起，已经学习项目" + nodeName;
             return false;
         }
         if (Player.Instance().GetCurrentGold() < gold)
         {
-            infoText.text = "对不起，金币不足，无法学习项目" + nodeName + "，该项目需要金币" + gold + "，你拥有" + Player.Instance().GetCurrentGold();
+            TechTree.Instance().textInfo.text = "对不起，金币不足，无法学习项目" + nodeName + "，该项目需要金币" + gold + "，你拥有" + Player.Instance().GetCurrentGold();
             return false;
         }
         if(arrowType == ArrowType.OR)
@@ -181,7 +180,7 @@ public class TechTreeNode : MonoBehaviour {
                 }
                 else
                 {
-                    infoText.text = "对不起，项目\"" + node.nodeName + "\"未学习，无法学习该项目";
+                    TechTree.Instance().textInfo.text = "对不起，项目\"" + node.nodeName + "\"未学习，无法学习该项目";
                     return false;
                 }
             }
@@ -193,7 +192,7 @@ public class TechTreeNode : MonoBehaviour {
             {
                 if (!node.isLighting)
                 {
-                    infoText.text = "对不起，项目\"" + node.nodeName + "\"未学习，无法学习该项目";
+                    TechTree.Instance().textInfo.text = "对不起，项目\"" + node.nodeName + "\"未学习，无法学习该项目";
                     return false;
                 }
             }
@@ -207,7 +206,7 @@ public class TechTreeNode : MonoBehaviour {
 
     public void ShowInfo()
     {
-        infoText.text = info;
+        TechTree.Instance().textInfo.text = info;
         TechTree.current = this;
     }
 }

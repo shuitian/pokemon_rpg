@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class Battle :MonoBehaviour{
 
@@ -53,9 +54,9 @@ public class Battle :MonoBehaviour{
             {
                 playerAttackText.text = "" + player.GetAttack();
             }
-            if (monsterNameText)
+            if (playerDefenceText)
             {
-                monsterNameText.text = player.GetDefence() + "%";
+                playerDefenceText.text = player.GetDefence() + "%";
             }
         }
         if (monster)
@@ -93,7 +94,14 @@ public class Battle :MonoBehaviour{
         this.player = player;
         this.monster = monster;
         ShowInfo();
-        AddInfo("战斗开始\n");
+        float a = monster.GetCurrentHp() / (1 - monster.GetDefence() / 100) / player.GetAttack();
+        if(a != (float)(int)a)
+        {
+            a = Mathf.Floor(a) + 1;
+            
+        }
+        a = a * monster.GetAttack() * (1 - player.GetDefence() / 100);
+        AddInfo("是否开始战斗，预计损耗生命" + a + "\n");
         isPlayerTurn = false;
     }
 
