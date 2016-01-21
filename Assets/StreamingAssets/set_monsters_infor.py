@@ -100,8 +100,8 @@ class sql(object):
 			a =  item.split(" ")
 			name = a[0]
 			hp = float(a[1])
-			if hp <= 0:
-				hp = 1
+			if hp < 0:
+				hp = 0
 			attack = float(a[2])
 			if attack < 0:
 				attack = 0
@@ -127,6 +127,7 @@ if __name__ == '__main__':
 	items = open("items.txt","r")
 	s.insert_monsters(monsters.readlines()[1:])
 	s.insert_items(items.readlines()[1:])
+	# s.show_table("ITEM")
 	
 
 

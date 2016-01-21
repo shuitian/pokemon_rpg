@@ -85,10 +85,11 @@ public class Battle :MonoBehaviour{
 
     public void battle(Player player, Monster monster)
     {
+        isStart = false;
         pass = false;
         strs = new string[strs.Length];
         temp = 0;
-        tip.text = "按P  跳过战斗过程\n按ESC    逃离战斗";
+        tip.text = "按空格键 开始战斗\n按P键 快速战斗\n按ESC    逃离战斗";
         this.player = player;
         this.monster = monster;
         ShowInfo();
@@ -96,6 +97,7 @@ public class Battle :MonoBehaviour{
         isPlayerTurn = false;
     }
 
+    bool isStart;
     bool isPlayerTurn;
     bool click = false;
     bool fail = false;
@@ -127,7 +129,12 @@ public class Battle :MonoBehaviour{
             }
         }else
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isStart = true;
+                tip.text = "按P  跳过战斗过程\n按ESC    逃离战斗";
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 monster = null;
                 AddInfo("你逃离了战斗，战斗结束\n");
@@ -136,9 +143,11 @@ public class Battle :MonoBehaviour{
             else if (Input.GetKeyDown(KeyCode.P))
             {
                 pass = true;
+                isStart = true;
+                tip.text = "按P  跳过战斗过程\n按ESC    逃离战斗";
             }
         }
-        if (!pass && Time.time - lastTime < battleSpcae)
+        if ((!pass && Time.time - lastTime < battleSpcae) || !isStart) 
         {
             return;
         }

@@ -46,6 +46,7 @@ public class TechTreeNode : MonoBehaviour {
     public ArrowType arrowType;
     public bool isLighting;
     List<TechTreeNode> parents = new List<TechTreeNode>();
+    List<TechTreeNode> children = new List<TechTreeNode>();
     public int gold;
     public int hp;
     public int attack;
@@ -56,6 +57,11 @@ public class TechTreeNode : MonoBehaviour {
         return parents;
     }
 
+    public List<TechTreeNode> GetChildren()
+    {
+        return children;
+    }
+
     void Awake()
     {
         int n = transform.childCount;
@@ -63,6 +69,7 @@ public class TechTreeNode : MonoBehaviour {
         {
             Arrow arrow = transform.GetChild(i).GetChild(0).GetComponent<Arrow>();
             arrow.end.parents.Add(arrow.start);
+            arrow.start.children.Add(arrow.end);
         }
     }
     
@@ -156,12 +163,12 @@ public class TechTreeNode : MonoBehaviour {
     {
         if (isLighting)
         {
-            infoText.text = "对不起，已经学习该项目";
+            infoText.text = "对不起，已经学习项目" + nodeName;
             return false;
         }
         if (Player.Instance().GetCurrentGold() < gold)
         {
-            infoText.text = "对不起，金币不足，需要金币" + gold + "，你拥有" + Player.Instance().GetCurrentGold();
+            infoText.text = "对不起，金币不足，无法学习项目" + nodeName + "，该项目需要金币" + gold + "，你拥有" + Player.Instance().GetCurrentGold();
             return false;
         }
         if(arrowType == ArrowType.OR)

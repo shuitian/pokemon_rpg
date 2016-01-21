@@ -14,10 +14,10 @@ public class PlayerMove : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-        if (Game.Instance().battle.gameObject.activeInHierarchy || Game.Instance().techTree.activeInHierarchy)
+    void FixedUpdate () {
+        if (Game.Instance().battle.gameObject.activeInHierarchy || Game.Instance().techTree.activeInHierarchy || Game.Instance().messageObject.activeInHierarchy) 
         {
-            lastTime = Time.time;
+            lastTime = Time.time + 5 * moveSpcae;
             return;
         }
         if(Time.time - lastTime < moveSpcae)
@@ -27,19 +27,19 @@ public class PlayerMove : MonoBehaviour {
         lastTime = Time.time;
         float t_x = 0;
         float t_y = 0;
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.D))
         {
             t_x = 1;
         }
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.A))
         {
             t_x = -1;
         }
-        else if (Input.GetKey(KeyCode.UpArrow))
+        else if (Input.GetKey(KeyCode.W))
         {
             t_y = 1;
         }
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.S))
         {
             t_y = -1;
         }
@@ -54,7 +54,7 @@ public class PlayerMove : MonoBehaviour {
             }
             if (Level.Instance().cells[x, y].IsRoad())
             {
-                transform.position = new Vector3(x * 1.04F, y, -1);
+                transform.position = new Vector3(x, y, -1);
                 if (sound && Game.sound)
                 {
                     sound.Play();

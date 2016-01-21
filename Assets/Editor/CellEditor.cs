@@ -19,6 +19,10 @@ public class CellEditor : Editor {
         Cell cell = (Cell)target;
         int t = cell.id;
         cell.id = EditorGUILayout.IntField("id", cell.id);
+        if (cell.id > LoadResources.maxMonster || cell.id < (int)CellType.add_attack_10)
+        {
+            cell.id = t;
+        }
         EditorGUILayout.PropertyField(m_Monster);
         EditorGUILayout.PropertyField(m_Item);
         if (t != cell.id)

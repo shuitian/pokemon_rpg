@@ -16,6 +16,11 @@ public class FastCreateEditor
     [MenuItem("FastCreate/生成地形")]
     public static void CreateTerrain()
     {
+        var option = EditorUtility.DisplayDialog("","确认重新生成地形？", "确认", "取消");
+        if (!option)
+        {
+            return;
+        }
         ClearTerrain();
         for (int i = 0; i < Game.maxLevel; i++)
         {

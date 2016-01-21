@@ -11,6 +11,11 @@ public class LevelEditor : Editor
         Level level = (Level)target;
         if (GUILayout.Button("随机生成迷宫"))
         {
+            var option = EditorUtility.DisplayDialog("", "确认重新随机生成迷宫？", "确认", "取消");
+            if (!option)
+            {
+                return;
+            }
             level.CreateRandomMaze();
         }
         if (GUILayout.Button("清除"))
