@@ -5,12 +5,14 @@ using System.Collections;
 [RequireComponent(typeof(LoadResources))]
 public class Game : MonoBehaviour {
 
+    public Vector3 gamePosition;
+    public Vector3 battlePosition;
+    public Vector3 emptyPosition;
     static Game game;
     public static int maxLevel = 10;
     public static Level[] levels = new Level[maxLevel];
     public static int currentLevel;
-    public Battle battle;
-    public GameObject battleGameObject;
+    public GameObject battleObject;
     public Text messageBox;
     public GameObject messageObject;
     public GameObject techTree;
@@ -44,6 +46,7 @@ public class Game : MonoBehaviour {
         {
             if (click && Input.anyKeyDown)
             {
+                messageObject.transform.position = emptyPosition;
                 messageObject.SetActive(false);
             }
         }
@@ -65,7 +68,7 @@ public class Game : MonoBehaviour {
         {
             Application.Quit();
         }
-        else if (Input.GetKeyDown(KeyCode.K) && !battleGameObject.activeInHierarchy)
+        else if (Input.GetKeyDown(KeyCode.K) && !battleObject.activeInHierarchy)
         {
             if (techTree && techTree.activeInHierarchy)
             {
@@ -119,7 +122,7 @@ public class Game : MonoBehaviour {
 
     public void Lose()
     {
-        ShowMessage("你输了，请按任意键重新开始游戏!");
+        ShowMessage("你输了，请按任意键重新开始游戏!", battlePosition);
         if(loseAudioSource && Game.sound)
         {
             loseAudioSource.Play();
@@ -128,15 +131,16 @@ public class Game : MonoBehaviour {
 
     public void Win()
     {
-        ShowMessage("恭喜你，你赢了!");
+        ShowMessage("恭喜你，你赢了!", gamePosition);
         if (winAudioSource && Game.sound)
         {
             winAudioSource.Play();
         }
     }
 
-    public void ShowMessage(string str)
+    public void ShowMessage(string str, Vector3 positon)
     {
+        messageObject.transform.position = positon;
         messageObject.SetActive(true);
         click = false;
         if (messageBox)

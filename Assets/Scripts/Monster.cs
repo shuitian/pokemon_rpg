@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityTool.Libgame;
 
 public class Monster : Character
 { 
@@ -20,7 +21,7 @@ public class Monster : Character
     public override void LoseHp(float p_hpLost)
     {
         base.LoseHp(p_hpLost);
-        Game.Instance().battle.AddInfo("受到你的攻击，" + characterName + "失去" + p_hpLost + "点生命\n");
+        Message.RaiseOneMessage<string>("AddBattleInfo", this, "受到你的攻击，" + characterName + "失去" + p_hpLost + "点生命\n");
     }
 }
 

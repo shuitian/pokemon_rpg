@@ -82,7 +82,7 @@ public class Player : Character {
     public override void LoseHp(float p_hpLost)
     {
         base.LoseHp(p_hpLost);
-        Game.Instance().battle.AddInfo("你受到" + p_hpLost + "点伤害\n");
+        Message.RaiseOneMessage<string>("AddBattleInfo", this, "你受到" + p_hpLost + "点伤害\n");
         Message.RaiseOneMessage<Player>("PlayerShow", this, this);
     }
 
@@ -120,7 +120,7 @@ public class Player : Character {
             str += ",金币增加了" + item.addGold;
         }
         str += "。";
-        Game.Instance().ShowMessage(str);
+        Game.Instance().ShowMessage(str, Game.Instance().gamePosition);
     }
 
     public override void AddAttack(float at)

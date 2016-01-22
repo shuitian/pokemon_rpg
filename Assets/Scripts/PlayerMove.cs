@@ -15,12 +15,12 @@ public class PlayerMove : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate () {
-        if (Game.Instance().battle.gameObject.activeInHierarchy || Game.Instance().techTree.activeInHierarchy || Game.Instance().messageObject.activeInHierarchy) 
+        if (Game.Instance().battleObject.activeInHierarchy || Game.Instance().techTree.activeInHierarchy || Game.Instance().messageObject.activeInHierarchy)
         {
             lastTime = Time.time + 5 * moveSpcae;
             return;
         }
-        if(Time.time - lastTime < moveSpcae)
+        if (Time.time - lastTime < moveSpcae)
         {
             return;
         }
@@ -52,7 +52,8 @@ public class PlayerMove : MonoBehaviour {
             {
                 return;
             }
-            if (Level.Instance().cells[x, y].IsRoad())
+            Cell cell = Level.Instance().cells[x, y];
+            if (cell.IsRoad())
             {
                 transform.position = new Vector3(x, y, -1);
                 if (sound && Game.sound)
@@ -60,7 +61,7 @@ public class PlayerMove : MonoBehaviour {
                     sound.Play();
                 }
             }
-            else if (Level.Instance().cells[x, y].IsUpFloor())
+            else if (cell.IsUpFloor())
             {
                 transform.position = new Vector3(x, y, -1);
                 if (Game.Instance().SetLevel(Game.currentLevel + 1))
@@ -68,7 +69,7 @@ public class PlayerMove : MonoBehaviour {
                     transform.position = new Vector3(0, 0, -1);
                 }
             }
-            else if (Level.Instance().cells[x, y].IsDownFloor())
+            else if (cell.IsDownFloor())
             {
                 transform.position = new Vector3(x, y, -1);
                 if (Game.Instance().SetLevel(Game.currentLevel - 1))
@@ -76,16 +77,15 @@ public class PlayerMove : MonoBehaviour {
                     transform.position = new Vector3(Level.width - 1, Level.height - 1, -1);
                 }
             }
-            else if (Level.Instance().cells[x, y].IsMonster())
+            else if (cell.IsMonster())
             {
-                Game.Instance().battle.gameObject.SetActive(true);
-                Game.Instance().battle.battle(Player.Instance(), Level.Instance().cells[x, y].monster);
+                Battle.Instance().battle(Player.Instance(), cell.monster);
             }
-            else if (Level.Instance().cells[x, y].IsItem())
+            else if (cell.IsItem())
             {
-                Player.Instance().GetItem(Level.Instance().cells[x, y].item);
-                Level.Instance().cells[x, y].GetComponent<SpriteRenderer>().sprite = null;
-                Level.Instance().cells[x, y].id = (int)CellType.ROAD;
+                Player.Instance().GetItem(cell.item);
+                cell.GetComponent<SpriteRenderer>().sprite = null;
+                cell.id = (int)CellType.ROAD;
                 if (Game.Instance().winAudioSource && Game.sound)
                 {
                     Game.Instance().winAudioSource.Play();

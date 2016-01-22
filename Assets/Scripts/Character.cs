@@ -112,9 +112,12 @@ public class Character : MonoBehaviour {
         return defence;
     }
 
-    public virtual void Attack(Character target)
+    public virtual bool Attack(Character target)
     {
-        target.LoseHp(attack * (1 - target.defence / 100));
+        Damage damage = new Damage(this, target, attack * (1 - target.defence / 100));
+        Damage.AddDamage(damage);
+        //target.LoseHp(attack * (1 - target.defence / 100));
+        return true;
     }
     #endregion
 }
