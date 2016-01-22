@@ -51,6 +51,7 @@ public class TechTreeNode : MonoBehaviour {
     public int hp;
     public int attack;
     public int defence;
+    public Skill skill;
     public List<TechTreeNode> GetParents()
     {
         return parents;
