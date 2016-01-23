@@ -31,7 +31,7 @@ public class PlayerShow : MonoBehaviour {
             //}
             if (hpText)
             {
-                hpText.text = "" + player.GetCurrentHp();
+                hpText.text = "" + player.hpComponent.GetCurrentHp();
             }
             if (attackText)
             {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityTool.Libgame;
 
 public class Damage {
 
@@ -36,7 +37,8 @@ public class Damage {
     {
         foreach (Damage damageStruct in Damage.GetDamages())
         {
-            damageStruct.damaged.LoseHp(damageStruct.damage);
+            damageStruct.damaged.hpComponent.LoseHp(damageStruct.damage);
+            Message.RaiseOneMessage<string>("AddBattleInfo", null, damageStruct.damager.characterName + "对" + damageStruct.damaged.characterName + "造成" + damageStruct.damage + "点伤害\n");
         }
         ClearDamages();
     }

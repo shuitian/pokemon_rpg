@@ -22,7 +22,7 @@ public class BattleShow : MonoBehaviour
     {
         if (playerHpText)
         {
-            playerHpText.text = "" + player.GetCurrentHp();
+            playerHpText.text = "" + player.hpComponent.GetCurrentHp();
         }
         if (playerAttackText)
         {
@@ -38,7 +38,7 @@ public class BattleShow : MonoBehaviour
     {
         if (monsterHpText)
         {
-            monsterHpText.text = "" + monster.GetCurrentHp();
+            monsterHpText.text = "" + monster.hpComponent.GetCurrentHp();
         }
         if (monsterAttackText)
         {

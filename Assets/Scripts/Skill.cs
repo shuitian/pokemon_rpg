@@ -5,17 +5,10 @@ using LuaInterface;
 
 public class Skill : MonoBehaviour {
 
-    public Dictionary<SkillTriggerState, LuaFunction> skills = new Dictionary<SkillTriggerState, LuaFunction>();
+    public bool isPassive;
     int round;
 	// Use this for initialization
-	void Start () {
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
 
 public enum SkillTriggerState

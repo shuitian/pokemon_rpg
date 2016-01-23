@@ -32,7 +32,7 @@ public class CellEditor : Editor {
                 MonsterData m = Sql.GetMonsterData(cell.id);
                 Monster monster = cell.GetComponent<Monster>();
                 monster.id = cell.id;
-                monster.SetHp(m.hp);
+                monster.hpComponent.SetHp(m.hp);
                 monster.characterName = m.name;
                 monster.SetAttack(m.attack);
                 monster.SetDefence(m.defence);

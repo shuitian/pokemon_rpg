@@ -127,12 +127,12 @@ public class Battle :MonoBehaviour{
                 StateMachine.ChangeState("Round", "AfterAttack");
                 break;
             case "AfterAttack":
-                if (monster.GetCurrentHp() <= 0)
+                if (monster.hpComponent.GetCurrentHp() <= 0)
                 {
                     StateMachine.ChangeState("Round", "BattleEnd");
                     StateMachine.ChangeState("Battle", "Win");
                 }
-                else if (player.GetCurrentHp() <= 0)
+                else if (player.hpComponent.GetCurrentHp() <= 0)
                 {
                     StateMachine.ChangeState("Round", "BattleEnd");
                     StateMachine.ChangeState("Battle", "Fail");

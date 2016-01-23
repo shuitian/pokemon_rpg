@@ -131,9 +131,10 @@ public class TechTreeNode : MonoBehaviour {
     {
         isLighting = true;
         Player.Instance().LoseGold(gold);
-        Player.Instance().AddHp(hp);
+        Player.Instance().hpComponent.AddHp(hp);
         Player.Instance().AddAttack(attack);
         Player.Instance().AddDefence(defence);
+        Message.RaiseOneMessage<Player>("PlayerShow", this, Player.Instance());
         TechTree.Instance().textInfo.text = "项目学习成功";
         ColorBlock colorblock = ColorBlock.defaultColorBlock;
         Color color = new Color(246 / 255.0F, 116 / 255.0F, 116 / 255.0F);

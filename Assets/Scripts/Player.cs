@@ -4,8 +4,9 @@ using UnityTool.Libgame;
 
 public class Player : Character {
 
-    void Awake()
+    new protected void Awake()
     {
+        base.Awake();
         player = this;
     }
     static Player player;
@@ -79,9 +80,9 @@ public class Player : Character {
     }
     #endregion
 
-    public override void LoseHp(float p_hpLost)
+    public void LoseHp(float p_hpLost)
     {
-        base.LoseHp(p_hpLost);
+        base.hpComponent.LoseHp(p_hpLost);
         Message.RaiseOneMessage<string>("AddBattleInfo", this, "你受到" + p_hpLost + "点伤害\n");
         Message.RaiseOneMessage<Player>("PlayerShow", this, this);
     }
@@ -97,7 +98,7 @@ public class Player : Character {
 
     public void GetItem(Item item)
     {
-        Player.Instance().AddHp(item.addHp);
+        Player.Instance().hpComponent.AddHp(item.addHp);
         Player.Instance().AddAttack(item.addAttack);
         Player.Instance().AddDefence(item.addDefence);
         Player.Instance().AddGold(item.addGold);
@@ -135,12 +136,6 @@ public class Player : Character {
         Message.RaiseOneMessage<Player>("PlayerShow", this, this);
     }
 
-    public override void AddHp(float p_hpObtained)
-    {
-        base.AddHp(p_hpObtained);
-        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
-    }
-
     public override void SetAttack(float at)
     {
         base.SetAttack(at);
@@ -150,12 +145,6 @@ public class Player : Character {
     public override void SetDefence(float de)
     {
         base.SetDefence(de);
-        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
-    }
-
-    public override void SetHp(float hp)
-    {
-        base.SetHp(hp);
         Message.RaiseOneMessage<Player>("PlayerShow", this, this);
     }
 }
