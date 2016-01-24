@@ -139,13 +139,19 @@ public class BattleShow : MonoBehaviour
         temp = 0;
         tip.text = "按空格键 开始战斗\n按P键 快速战斗\n按ESC    逃离战斗";
         ShowBattleInfo();
-        Message.RaiseOneMessage<string>("AddBattleInfo", this, "是否开始战斗?\n");
+        float a = monster.hpComponent.GetCurrentHp() / (1 - monster.GetDefence() / 100) / player.GetAttack();
+        if (a != (float)(int)a)
+        {
+            a = Mathf.Floor(a) + 1;
+
+        }
+        a = a * monster.GetAttack() * (1 - player.GetDefence() / 100);
+        Message.RaiseOneMessage<string>("AddBattleInfo", this, "是否开始战斗?估计损耗生命值" + a);
         StateMachine.ChangeState("Battle", "Start");
     }
 
     void Update()
     {
-        //print(StateMachine.GetCurrentStateName("Battle"));
         switch (StateMachine.GetCurrentStateName("Battle"))
         {
             case "Escape":

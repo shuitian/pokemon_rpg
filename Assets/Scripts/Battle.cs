@@ -34,7 +34,7 @@ public class Battle :MonoBehaviour{
 
     void BattleRoundEnter(string stateName)
     {
-        isPlayerTurn = false;
+        isPlayerTurn = true;
         StateMachine.ChangeState("Round", "RoundStart");
     }
 
@@ -60,13 +60,6 @@ public class Battle :MonoBehaviour{
         this.player = player;
         this.monster = monster;
         pass = false;
-        //float a = monster.GetCurrentHp() / (1 - monster.GetDefence() / 100) / player.GetAttack();
-        //if(a != (float)(int)a)
-        //{
-        //    a = Mathf.Floor(a) + 1;
-
-        //}
-        //a = a * monster.GetAttack() * (1 - player.GetDefence() / 100);
         gameObject.SetActive(true);
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -10);
         StateMachine.ChangeState("Battle", "Init");
