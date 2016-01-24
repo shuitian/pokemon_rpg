@@ -79,6 +79,17 @@ public class PlayerMove : MonoBehaviour {
             }
             else if (cell.IsMonster())
             {
+                if (!cell.gameObject.GetComponent<MonsterHpComponent>())
+                {
+                    cell.gameObject.AddComponent<MonsterHpComponent>();
+                }
+                MonsterData m = Sql.GetMonsterData(cell.id);
+                cell.monster.id = cell.id;                
+                cell.monster.hpComponent.SetHp(m.hp);
+                cell.monster.characterName = m.name;
+                cell.monster.SetAttack(m.attack);
+                cell.monster.SetDefence(m.defence);
+                cell.monster.gold = m.gold;
                 Battle.Instance().battle(Player.Instance(), cell.monster);
             }
             else if (cell.IsItem())

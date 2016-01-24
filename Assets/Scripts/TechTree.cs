@@ -36,8 +36,7 @@ public class TechTree : MonoBehaviour {
     {
         treePanel.transform.localPosition = new Vector3(treePanel.transform.localPosition.x, barVertical.value * 5.9F + -0.1F, treePanel.transform.localPosition.z);
     }
-
-    int count = 0;
+		
     public Scrollbar barHorizontal;
     public Scrollbar barVertical;
     public float stepHorizontal = 0.125F;

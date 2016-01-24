@@ -10,7 +10,11 @@ public class Character : MonoBehaviour {
         {
             if(_hpComponent == null)
             {
-                _hpComponent = gameObject.AddComponent<HpComponent>();
+                _hpComponent = gameObject.GetComponent<HpComponent>();
+                if (!_hpComponent)
+                {
+                    _hpComponent = gameObject.AddComponent<HpComponent>();
+                }
             }
             return _hpComponent;
         }

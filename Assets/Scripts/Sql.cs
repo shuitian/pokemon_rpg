@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using Mono.Data.Sqlite;
+using UnityTool.Libgame;
 
 public class Sql : MonoBehaviour {
 
@@ -15,8 +16,10 @@ public class Sql : MonoBehaviour {
         {
             if (dbConnection == null) 
             {
+
                 dbConnection = new SqliteConnection("data source=" + Application.dataPath + "/StreamingAssets/" + dbName);
                 Debug.Log("Connected to db");
+                Log.WriteLog("Open " + dbName + " success");
                 dbConnection.Open();
                 
                 return dbConnection;
@@ -29,6 +32,7 @@ public class Sql : MonoBehaviour {
         {
             string temp1 = e.ToString();
             Debug.Log(temp1);
+            Log.WriteLog(temp1);
         }
         return null;
     }
@@ -51,6 +55,7 @@ public class Sql : MonoBehaviour {
         }
         dbConnection = null;
         Debug.Log("Disconnected from db.");
+        Log.WriteLog("Disconnected from db.");
     }
 
     static public SqliteDataReader ExecuteQuery(string sqlQuery)

@@ -38,7 +38,7 @@ public class Damage {
         foreach (Damage damageStruct in Damage.GetDamages())
         {
             damageStruct.damaged.hpComponent.LoseHp(damageStruct.damage);
-            Message.RaiseOneMessage<string>("AddBattleInfo", null, damageStruct.damager.characterName + "对" + damageStruct.damaged.characterName + "造成" + damageStruct.damage + "点伤害\n");
+            Message.RaiseOneMessage<string>("AddBattleInfo", null, damageStruct.damager.characterName + "对" + damageStruct.damaged.characterName + " 造成" + damageStruct.damage + "点伤害\n");
         }
         ClearDamages();
     }

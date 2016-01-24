@@ -57,11 +57,13 @@ public class CellEditor : Editor {
         }
         if (cell.id == (int)CellType.ROAD && t != (int)CellType.ROAD)
         {
-            cell.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, 1);
+            Color color = cell.GetComponent<SpriteRenderer>().color;
+            cell.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, color.a);
         }
         else if (cell.id != (int)CellType.ROAD && t == (int)CellType.ROAD)
         {
-            cell.GetComponent<SpriteRenderer>().color += new Color(0, 0, 0, 1);
+            Color color = cell.GetComponent<SpriteRenderer>().color;
+            cell.GetComponent<SpriteRenderer>().color -= new Color(0, 0, 0, color.a - 1);
         }
 
         if (cell.IsMonster())

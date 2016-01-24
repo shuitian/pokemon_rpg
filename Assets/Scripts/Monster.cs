@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityTool.Libgame;
 
+[RequireComponent(typeof(MonsterHpComponent))]
 public class Monster : Character
 { 
     public int id;

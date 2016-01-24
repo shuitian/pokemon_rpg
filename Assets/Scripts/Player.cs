@@ -2,6 +2,8 @@
 using System.Collections;
 using UnityTool.Libgame;
 
+[RequireComponent(typeof(PlayerMove))]
+[RequireComponent(typeof(PlayerHpComponent))]
 public class Player : Character {
 
     new protected void Awake()
