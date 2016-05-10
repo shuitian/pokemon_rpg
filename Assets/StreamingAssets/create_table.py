@@ -13,8 +13,9 @@ class sql(object):
 		self.conn = sqlite3.connect(db)
 
 		print "Open",db,"Success"
-		self.create_table_item()
-		self.create_table_monster()
+		if override:
+			self.create_table_item()
+			self.create_table_monster()
 		
 	def __del__(self):
 		"""关闭数据库连接"""
@@ -118,12 +119,12 @@ class sql(object):
 
 if __name__ == '__main__':
 	"""创建怪物表"""
-	s = sql(True)
-	monsters = open("monsters.txt","r")
-	items = open("items.txt","r")
-	s.insert_monsters(monsters.readlines()[1:])
-	s.insert_items(items.readlines()[1:])
-	# s.show_table("ITEM")
+	s = sql(False)
+	# monsters = open("monsters.txt","r")
+	# items = open("items.txt","r")
+	# s.insert_monsters(monsters.readlines()[1:])
+	# s.insert_items(items.readlines()[1:])
+	s.show_table("ITEM")
 	
 
 

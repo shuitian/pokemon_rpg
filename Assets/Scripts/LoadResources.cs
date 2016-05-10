@@ -48,5 +48,5 @@ public class LoadResources : MonoBehaviour {
         grass_sound = Resources.Load<AudioClip>("Sound/grass");
         road_sound = Resources.Load<AudioClip>("Sound/road");
         water_sound = Resources.Load<AudioClip>("Sound/water");
-}
+    }
 }

@@ -7,17 +7,6 @@ public class Monster : Character
 { 
     public int id;
     public int gold;
-    protected override void die()
-    {
-        base.die();
-        GetComponent<Cell>().id = (int)CellType.ROAD;
-        GetComponent<SpriteRenderer>().sprite = null;
-        Player.Instance().AddGold(gold);
-        if (Game.Instance().winAudioSource && Game.sound)
-        {
-            Game.Instance().winAudioSource.Play();
-        }
-    }
 }
 
 public class MonsterData

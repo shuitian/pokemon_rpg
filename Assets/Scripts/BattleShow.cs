@@ -146,7 +146,7 @@ public class BattleShow : MonoBehaviour
 
         }
         a = a * monster.GetAttack() * (1 - player.GetDefence() / 100);
-        Message.RaiseOneMessage<string>("AddBattleInfo", this, "是否开始战斗?估计损耗生命值" + a);
+        Message.RaiseOneMessage<string>("AddBattleInfo", this, "是否开始战斗?估计损耗生命值" + a + "\n");
         StateMachine.ChangeState("Battle", "Start");
     }
 

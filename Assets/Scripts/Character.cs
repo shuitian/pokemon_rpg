@@ -26,10 +26,6 @@ public class Character : MonoBehaviour {
         _hpComponent = GetComponent<HpComponent>();
     }
 
-    protected virtual void die()
-    {
-    }
-
     [SerializeField]
     float attack;
     [Range(0, 100)]

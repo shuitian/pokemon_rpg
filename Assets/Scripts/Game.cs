@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(LoadResources))]
 public class Game : MonoBehaviour {
@@ -10,7 +10,7 @@ public class Game : MonoBehaviour {
     public Vector3 battlePosition;
     public Vector3 emptyPosition;
     static Game game;
-    public static int maxLevel = 10;
+    public static int maxLevel = 8;
     public static Level[] levels = new Level[maxLevel];
     public static int currentLevel;
     public GameObject battleObject;
@@ -84,7 +84,8 @@ public class Game : MonoBehaviour {
 
     public void Restart()
     {
-		SceneManager.LoadScene (0);
+        Application.LoadLevel(0);
+		//SceneManager.LoadScene (0);
     }
 
     public Text levelText;
@@ -124,7 +125,7 @@ public class Game : MonoBehaviour {
     public void Lose()
     {
         ShowMessage("你输了，请按任意键重新开始游戏!", battlePosition);
-        if(loseAudioSource && Game.sound)
+        if (loseAudioSource && Game.sound)
         {
             loseAudioSource.Play();
         }

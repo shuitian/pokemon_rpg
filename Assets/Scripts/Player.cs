@@ -82,22 +82,6 @@ public class Player : Character {
     }
     #endregion
 
-    public void LoseHp(float p_hpLost)
-    {
-        base.hpComponent.LoseHp(p_hpLost);
-        Message.RaiseOneMessage<string>("AddBattleInfo", this, "你受到" + p_hpLost + "点伤害\n");
-        Message.RaiseOneMessage<Player>("PlayerShow", this, this);
-    }
-
-    /// <summary>
-    /// 角色死亡
-    /// </summary>
-    protected override void die()
-    {
-        base.die();
-        Game.Instance().Lose();
-    }
-
     public void GetItem(Item item)
     {
         Player.Instance().hpComponent.AddHp(item.addHp);
