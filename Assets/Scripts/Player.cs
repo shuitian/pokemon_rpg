@@ -82,14 +82,14 @@ public class Player : Character {
     }
     #endregion
 
-    public void GetItem(Item item)
+    public void GetItem(ItemData item)
     {
         Player.Instance().hpComponent.AddHp(item.addHp);
         Player.Instance().AddAttack(item.addAttack);
         Player.Instance().AddDefence(item.addDefence);
         Player.Instance().AddGold(item.addGold);
         Message.RaiseOneMessage<Player>("PlayerShow", this, this);
-        string str = "你获得了" + item.itemName;
+        string str = "你获得了" + item.name;
         if (item.addHp > 0)
         {
             str += ",生命值增加了" + item.addHp;

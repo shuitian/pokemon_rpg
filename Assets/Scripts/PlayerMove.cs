@@ -83,7 +83,7 @@ public class PlayerMove : MonoBehaviour {
                 {
                     cell.gameObject.AddComponent<MonsterHpComponent>();
                 }
-                MonsterData m = Sql.GetMonsterData(cell.id);
+                MonsterData m = MonsterData.GetMonsterDataFromNetwork(cell.id);
                 cell.monster.id = cell.id;                
                 cell.monster.hpComponent.SetHp(m.hp);
                 cell.monster.characterName = m.name;
@@ -94,7 +94,8 @@ public class PlayerMove : MonoBehaviour {
             }
             else if (cell.IsItem())
             {
-                Player.Instance().GetItem(cell.item);
+                ItemData itemData = ItemData.GetItemDataFromNetwork(cell.item.id + 9);
+                Player.Instance().GetItem(itemData);
                 cell.GetComponent<SpriteRenderer>().sprite = null;
                 cell.id = (int)CellType.ROAD;
                 if (Game.Instance().winAudioSource && Game.sound)

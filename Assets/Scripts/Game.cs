@@ -26,6 +26,7 @@ public class Game : MonoBehaviour {
     }
     void Awake()
     {
+        SocketClient.setServer("127.0.0.1", 10019);
         game = this;
     }
     // Use this for initialization

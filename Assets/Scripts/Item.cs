@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.IO;
 using System;
 
 public class Item : MonoBehaviour {
@@ -26,7 +25,6 @@ public class ItemData
     {
         string message = CreateMessageGetItemDataFromNetwork(id);
         string result = SocketClient.send(message);
-        //JsonReader reader = new JsonTextReader(new StringReader(result));
         JObject jo = (JObject)JsonConvert.DeserializeObject(result);
         ItemData itemData = new ItemData();
         if (jo["type"].ToString() == "item")
@@ -43,7 +41,6 @@ public class ItemData
 
     static public string CreateMessageGetItemDataFromNetwork(int id)
     {
-        string message = "{ \"type\": \"item\", \"body\":{\"id\":\"" + id + "\"}}";
-        return message;
+        return JsonConvert.SerializeObject(new { type = "item", body = new { id = id } });
     }
 }

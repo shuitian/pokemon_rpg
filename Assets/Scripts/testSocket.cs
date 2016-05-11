@@ -18,6 +18,14 @@ public class testSocket : MonoBehaviour {
         print(itemData.addAttack);
         print(itemData.addDefence);
         print(itemData.addGold);
+
+        MonsterData monsterData = MonsterData.GetMonsterDataFromNetwork(4);
+        print(monsterData.id);
+        print(monsterData.name);
+        print(monsterData.hp);
+        print(monsterData.attack);
+        print(monsterData.defence);
+        print(monsterData.gold);
     }
 	
 	// Update is called once per frame
