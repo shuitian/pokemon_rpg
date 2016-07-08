@@ -23,6 +23,10 @@ public class MonsterData
     {
         string message = CreateMessageGetMonsterDataFromNetwork(id);
         string result = SocketClient.send(message);
+        if (result == null)
+        {
+            return null;
+        }
         JObject jo = (JObject)JsonConvert.DeserializeObject(result);
         MonsterData monsterData = new MonsterData();
         if (jo["type"].ToString() == "monster")

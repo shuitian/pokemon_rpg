@@ -84,23 +84,29 @@ public class PlayerMove : MonoBehaviour {
                     cell.gameObject.AddComponent<MonsterHpComponent>();
                 }
                 MonsterData m = MonsterData.GetMonsterDataFromNetwork(cell.id);
-                cell.monster.id = cell.id;                
-                cell.monster.hpComponent.SetHp(m.hp);
-                cell.monster.characterName = m.name;
-                cell.monster.SetAttack(m.attack);
-                cell.monster.SetDefence(m.defence);
-                cell.monster.gold = m.gold;
-                Battle.Instance().battle(Player.Instance(), cell.monster);
+                if (m != null)
+                {
+                    cell.monster.id = cell.id;
+                    cell.monster.hpComponent.SetHp(m.hp);
+                    cell.monster.characterName = m.name;
+                    cell.monster.SetAttack(m.attack);
+                    cell.monster.SetDefence(m.defence);
+                    cell.monster.gold = m.gold;
+                    Battle.Instance().battle(Player.Instance(), cell.monster);
+                }
             }
             else if (cell.IsItem())
             {
                 ItemData itemData = ItemData.GetItemDataFromNetwork(cell.item.id + 9);
-                Player.Instance().GetItem(itemData);
-                cell.GetComponent<SpriteRenderer>().sprite = null;
-                cell.id = (int)CellType.ROAD;
-                if (Game.Instance().winAudioSource && Game.sound)
+                if (itemData != null)
                 {
-                    Game.Instance().winAudioSource.Play();
+                    Player.Instance().GetItem(itemData);
+                    cell.GetComponent<SpriteRenderer>().sprite = null;
+                    cell.id = (int)CellType.ROAD;
+                    if (Game.Instance().winAudioSource && Game.sound)
+                    {
+                        Game.Instance().winAudioSource.Play();
+                    }
                 }
             }
         }

@@ -84,6 +84,10 @@ public class Player : Character {
 
     public void GetItem(ItemData item)
     {
+        if(item == null)
+        {
+            return;
+        }
         Player.Instance().hpComponent.AddHp(item.addHp);
         Player.Instance().AddAttack(item.addAttack);
         Player.Instance().AddDefence(item.addDefence);

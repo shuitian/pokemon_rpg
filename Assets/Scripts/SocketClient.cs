@@ -66,6 +66,7 @@ class SocketClient
         catch
         {
             MonoBehaviour.print("连接失败！");
+            Game.Instance().ShowMessage("连接服务器失败！ ", Game.Instance().gamePosition);
             Close();
         }
     }

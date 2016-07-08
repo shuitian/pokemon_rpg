@@ -24,7 +24,11 @@ public class ItemData
     static public ItemData GetItemDataFromNetwork(int id)
     {
         string message = CreateMessageGetItemDataFromNetwork(id);
-        string result = SocketClient.send(message);
+        string result = SocketClient.send(message);        
+        if(result == null)
+        {
+            return null;
+        }
         JObject jo = (JObject)JsonConvert.DeserializeObject(result);
         ItemData itemData = new ItemData();
         if (jo["type"].ToString() == "item")

@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 3369497283
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: f5aff391d1cf8cecd686ba35667bb8b0
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 2f2f2066664da45d7bd80f5d5fddcaff
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Texture/item_1.png
+- Assets/Resources/Texture/1.prefab
+Dependencies: []
