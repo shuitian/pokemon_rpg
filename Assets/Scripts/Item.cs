@@ -21,6 +21,12 @@ public class ItemData
     public float addDefence;
     public int addGold;
 
+    static public ItemData GetItemDataFromDB(int id)
+    {
+        ItemData m = Sql.GetItemData(id);
+        return m;
+    }
+
     static public ItemData GetItemDataFromNetwork(int id)
     {
         string message = CreateMessageGetItemDataFromNetwork(id);

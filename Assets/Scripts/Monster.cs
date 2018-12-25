@@ -19,6 +19,12 @@ public class MonsterData
     public float defence;
     public int gold;
 
+    static public MonsterData GetMonsterDataFromDB(int id)
+    {
+        MonsterData m = Sql.GetMonsterData(id);
+        return m;
+    }
+
     static public MonsterData GetMonsterDataFromNetwork(int id)
     {
         string message = CreateMessageGetMonsterDataFromNetwork(id);

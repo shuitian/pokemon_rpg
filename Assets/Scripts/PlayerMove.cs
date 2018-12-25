@@ -83,7 +83,7 @@ public class PlayerMove : MonoBehaviour {
                 {
                     cell.gameObject.AddComponent<MonsterHpComponent>();
                 }
-                MonsterData m = MonsterData.GetMonsterDataFromNetwork(cell.id);
+                MonsterData m = MonsterData.GetMonsterDataFromDB(cell.id);
                 cell.monster.id = cell.id;                
                 cell.monster.hpComponent.SetHp(m.hp);
                 cell.monster.characterName = m.name;
@@ -94,7 +94,7 @@ public class PlayerMove : MonoBehaviour {
             }
             else if (cell.IsItem())
             {
-                ItemData itemData = ItemData.GetItemDataFromNetwork(cell.item.id + 9);
+                ItemData itemData = ItemData.GetItemDataFromDB(cell.item.id + 9);
                 Player.Instance().GetItem(itemData);
                 cell.GetComponent<SpriteRenderer>().sprite = null;
                 cell.id = (int)CellType.ROAD;

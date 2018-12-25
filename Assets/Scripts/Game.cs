@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 //using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(LoadResources))]
@@ -85,8 +86,7 @@ public class Game : MonoBehaviour {
 
     public void Restart()
     {
-        Application.LoadLevel(0);
-		//SceneManager.LoadScene (0);
+		SceneManager.LoadScene (0);
     }
 
     public Text levelText;
